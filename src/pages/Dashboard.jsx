@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fi'
 import RoadmapView from '../components/dashboard/RoadmapView'
 import CareerCopilot from '../components/dashboard/CareerCopilot'
-import InterviewStudio from '../components/dashboard/InterviewStudio'
+import AIInterviewStudio from '../components/interview/AIInterviewStudio'
 import Opportunities from '../components/dashboard/Opportunities'
 import Portfolio from '../components/dashboard/Portfolio'
 import Analytics from '../components/dashboard/Analytics'
@@ -125,7 +125,7 @@ const Dashboard = () => {
           <Route path="/" element={<Navigate to="/dashboard/roadmap" />} />
           <Route path="/roadmap" element={<RoadmapView />} />
           <Route path="/copilot" element={<CareerCopilot />} />
-          <Route path="/interview" element={<InterviewStudio />} />
+          <Route path="/interview" element={<AIInterviewStudio />} />
           <Route path="/opportunities" element={<Opportunities />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/analytics" element={<Analytics />} />
