@@ -76,116 +76,158 @@ const RoleMatchCard = ({ match, rank }) => {
   const hasVideo = !!videoData
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card variant="default" padding="md" className="hover:shadow-lg transition-shadow">
       <div className="space-y-4">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              {rank && (
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary text-white flex items-center justify-center font-bold text-sm">
-                  #{rank}
-                </div>
-              )}
-              <h3 className="text-xl font-bold text-neutral-darkest">
-                {roleProfile.name}
-              </h3>
-            </div>
-            <p className="text-neutral-steel">{roleProfile.summary}</p>
-          </div>
-
-          {/* Match Score */}
-          <div className={`flex-shrink-0 text-center px-6 py-3 rounded-xl border-2 ${matchLevelBg[match.matchLevel]}`}>
-            <div className={`text-3xl font-bold bg-gradient-to-r ${matchLevelColors[match.matchLevel]} bg-clip-text text-transparent`}>
-              {match.score}%
-            </div>
-            <p className="text-xs text-neutral-steel mt-1">Match</p>
-          </div>
-        </div>
-
-        {/* Skills Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-3 bg-green-50 rounded-xl">
-            <p className="text-sm text-neutral-steel mb-1">Matched Skills</p>
-            <p className="text-lg font-bold text-green-700">
-              {match.matchedSkills.length}
-            </p>
-          </div>
-          <div className="p-3 bg-red-50 rounded-xl">
-            <p className="text-sm text-neutral-steel mb-1">Skills to Learn</p>
-            <p className="text-lg font-bold text-red-700">
-              {match.gapSkills.length}
-            </p>
-          </div>
-          <div className="p-3 bg-blue-50 rounded-xl">
-            <p className="text-sm text-neutral-steel mb-1">Bonus Skills</p>
-            <p className="text-lg font-bold text-blue-700">
-              {match.bonusSkills.length}
-            </p>
-          </div>
-        </div>
-
-        {/* Recommendation */}
-        <div className="p-4 bg-background-primary rounded-xl border-l-4 border-primary">
-          <p className="text-neutral-darker">{match.recommendation}</p>
-        </div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap gap-3">
-          <Button onClick={handleAskCopilot} variant="primary">
-            <FiMessageCircle className="mr-2" />
-            Ask Career Copilot
-          </Button>
-          <Button
-            onClick={() => {
-              if (hasVideo) {
-                setShowVideo(!showVideo)
-              } else {
-                handleGenerateVideo()
-              }
+        {/* Role Title - Comfortaa 16px from SVG */}
+        <div className="text-center">
+          <h3
+            className="mb-2"
+            style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'var(--text-xl)',  // 16px - exact SVG spec
+              color: 'var(--neutral-800)',
+              fontWeight: 'normal'
             }}
-            variant={hasVideo ? "primary" : "outline"}
-            disabled={generatingVideo}
           >
-            <FiVideo className="mr-2" />
-            {generatingVideo ? 'Generating...' : hasVideo ? (showVideo ? 'Hide Video' : 'Show Video') : 'Generate Role Video'}
-          </Button>
+            {roleProfile.name}
+          </h3>
+        </div>
+
+        {/* Large Match Percentage - 21.97px number + 13.78px % symbol from SVG */}
+        <div className="text-center">
+          <div className="flex items-baseline justify-center">
+            <span
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-3xl)',  // 21.12px (closest to 21.97px)
+                color: 'var(--primary-500)',
+                fontWeight: 'bold',
+                lineHeight: '1'
+              }}
+            >
+              {match.score}
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-base)',  // 12.78px (closest to 13.78px)
+                color: 'var(--primary-500)',
+                fontWeight: 'bold',
+                lineHeight: '1',
+                marginLeft: '2px'
+              }}
+            >
+              %
+            </span>
+          </div>
+          <p
+            className="mt-1"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-3xs)',  // 6.38px
+              color: 'var(--neutral-500)'
+            }}
+          >
+            Match
+          </p>
+        </div>
+
+        {/* Skills - Small badge pills (6.64px font) from SVG */}
+        <div>
+          <p
+            className="mb-2 text-center"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-3xs)',  // 6.38px
+              color: 'var(--neutral-500)',
+              fontWeight: '500'
+            }}
+          >
+            Key Skills
+          </p>
+          <div className="flex flex-wrap gap-1 justify-center">
+            {/* Show top matched skills */}
+            {match.matchedSkills.slice(0, 4).map(skill => (
+              <Badge key={skill} variant="success" size="md">
+                {skill}
+              </Badge>
+            ))}
+            {/* Show a few gap skills */}
+            {match.gapSkills.slice(0, 2).map(skill => (
+              <Badge key={skill} variant="warning" size="md">
+                {skill}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Get My Roadmap Button - Small from SVG */}
+        <div className="text-center">
           <Button
-            onClick={() => setExpanded(!expanded)}
-            variant="ghost"
+            onClick={() => navigate('/dashboard/roadmap')}
+            variant="primary"
+            size="md"
+            className="w-full"
           >
-            {expanded ? <FiChevronUp className="mr-2" /> : <FiChevronDown className="mr-2" />}
-            {expanded ? 'Show Less' : 'View Details'}
+            Get My Roadmap
           </Button>
         </div>
 
-        {/* Video Player */}
-        {showVideo && hasVideo && (
-          <div className="pt-4 border-t border-background-primary">
-            <VideoPlayer
-              videoData={videoData}
-              roleName={roleProfile.name}
-              onClose={() => setShowVideo(false)}
-            />
-          </div>
-        )}
+        {/* Optional: Expand for details */}
+        <div className="text-center border-t pt-3" style={{ borderColor: 'var(--neutral-200)' }}>
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="transition-colors"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-3xs)',  // 6.38px
+              color: 'var(--primary-500)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '4px 8px'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            {expanded ? 'Show Less ▲' : 'View Details ▼'}
+          </button>
+        </div>
 
-        {/* Expanded Details */}
+        {/* Expanded Details - Compact */}
         {expanded && (
-          <div className="space-y-4 pt-4 border-t border-background-primary">
+          <div className="space-y-3 pt-3 border-t" style={{ borderColor: 'var(--neutral-200)' }}>
             {/* Description */}
-            <div>
-              <h4 className="font-semibold text-neutral-darkest mb-2">About this Role</h4>
-              <p className="text-neutral-steel">{roleProfile.description}</p>
-            </div>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-2xs)',  // 6.64px
+                color: 'var(--neutral-500)',
+                lineHeight: '1.5'
+              }}
+            >
+              {roleProfile.summary}
+            </p>
 
             {/* Matched Skills */}
             {match.matchedSkills.length > 0 && (
               <div>
-                <h4 className="font-semibold text-neutral-darkest mb-2">✅ Your Matching Skills</h4>
-                <div className="flex flex-wrap gap-2">
+                <div
+                  className="mb-1"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-3xs)',  // 6.38px
+                    color: 'var(--neutral-800)',
+                    fontWeight: '500'
+                  }}
+                >
+                  ✅ Your Matching Skills
+                </div>
+                <div className="flex flex-wrap gap-1">
                   {match.matchedSkills.map(skill => (
-                    <Badge key={skill} variant="success">{skill}</Badge>
+                    <Badge key={skill} variant="success" size="md">
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -194,30 +236,61 @@ const RoleMatchCard = ({ match, rank }) => {
             {/* Gap Skills */}
             {match.gapSkills.length > 0 && (
               <div>
-                <h4 className="font-semibold text-neutral-darkest mb-2">📚 Skills to Develop</h4>
-                <div className="flex flex-wrap gap-2">
+                <div
+                  className="mb-1"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-3xs)',  // 6.38px
+                    color: 'var(--neutral-800)',
+                    fontWeight: '500'
+                  }}
+                >
+                  📚 Skills to Develop
+                </div>
+                <div className="flex flex-wrap gap-1">
                   {match.gapSkills.map(skill => (
-                    <Badge key={skill} variant="warning">{skill}</Badge>
+                    <Badge key={skill} variant="warning" size="md">
+                      {skill}
+                    </Badge>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Responsibilities */}
-            <div>
-              <h4 className="font-semibold text-neutral-darkest mb-2">Key Responsibilities</h4>
-              <ul className="list-disc list-inside space-y-1 text-neutral-steel">
-                {roleProfile.responsibilities.slice(0, 4).map((resp, idx) => (
-                  <li key={idx}>{resp}</li>
-                ))}
-              </ul>
+            {/* Actions */}
+            <div className="flex gap-2">
+              <Button onClick={handleAskCopilot} variant="secondary" size="md" className="flex-1">
+                <FiMessageCircle size={10} style={{ marginRight: '4px' }} />
+                Ask Copilot
+              </Button>
+              <Button
+                onClick={() => {
+                  if (hasVideo) {
+                    setShowVideo(!showVideo)
+                  } else {
+                    handleGenerateVideo()
+                  }
+                }}
+                variant="secondary"
+                size="md"
+                disabled={generatingVideo}
+                className="flex-1"
+              >
+                <FiVideo size={10} style={{ marginRight: '4px' }} />
+                {generatingVideo ? '...' : hasVideo ? (showVideo ? 'Hide' : 'Show') : 'Video'}
+              </Button>
             </div>
 
-            {/* Career Trajectory */}
-            <div>
-              <h4 className="font-semibold text-neutral-darkest mb-2">Career Path</h4>
-              <p className="text-neutral-steel">{roleProfile.careerTrajectory}</p>
-            </div>
+            {/* Video Player */}
+            {showVideo && hasVideo && (
+              <div className="pt-2">
+                <VideoPlayer
+                  videoData={videoData}
+                  roleName={roleProfile.name}
+                  onClose={() => setShowVideo(false)}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

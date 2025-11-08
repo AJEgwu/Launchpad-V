@@ -1,3 +1,9 @@
+/* Import Design Tokens */
+@import './styles/design-tokens.css';
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,16 +15,37 @@
 
   html {
     @apply scroll-smooth;
+    font-size: 16px; /* Base font size for rem calculations */
   }
 
   body {
     @apply m-0 antialiased;
-    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
-    background-color: #d0ecf0;
+    font-family: var(--font-body);
+    background: var(--gradient-bg);
+    color: var(--text-primary);
+    font-size: var(--text-md);
+    line-height: var(--leading-normal);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    font-family: var(--font-primary);
+    font-weight: var(--font-normal);
+    line-height: var(--leading-tight);
+  }
+
+  h1 { font-size: var(--text-6xl); }
+  h2 { font-size: var(--text-5xl); }
+  h3 { font-size: var(--text-4xl); }
+  h4 { font-size: var(--text-3xl); }
+  h5 { font-size: var(--text-2xl); }
+  h6 { font-size: var(--text-xl); }
+
+  button {
+    font-family: var(--font-primary);
+  }
+
+  input, textarea, select {
+    font-family: var(--font-body);
   }
 }
 

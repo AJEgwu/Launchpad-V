@@ -1,5 +1,14 @@
+/**
+ * Landing Page - Rebuilt to match SVG design specifications
+ * Navigation: Logo (Comfortaa 12.78px), nav items, compact buttons
+ * Hero: Precise typography, compact spacing
+ * Features: 3-column grid, 12px radius cards
+ */
+
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
+import Card from '../components/Card'
+import Badge from '../components/Badge'
 import {
   FiZap,
   FiMap,
@@ -19,60 +28,117 @@ const Landing = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background-primary via-white to-background-secondary">
-      {/* Header */}
-      <header className="px-6 py-6 backdrop-blur-sm bg-white/80 border-b border-background-primary/50 sticky top-0 z-50">
+    <div className="min-h-screen" style={{ background: 'var(--gradient-bg)' }}>
+      {/* Header - Exact SVG specifications */}
+      <header
+        className="px-6 py-4 backdrop-blur-sm bg-white/90 border-b sticky top-0 z-50"
+        style={{ borderColor: 'var(--neutral-200)' }}
+      >
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-card">
-              <FiZap className="text-white text-xl" />
-            </div>
-            <h1 className="text-2xl font-bold text-primary">
+          {/* Logo */}
+          <div className="flex items-center gap-8">
+            <h1
+              className="leading-tight"
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-base)',  // 12.78px
+                color: 'var(--primary-500)',
+                fontWeight: 'normal'
+              }}
+            >
               LaunchPad
             </h1>
+
+            {/* Navigation Links - from SVG spec */}
+            <nav className="hidden md:flex items-center gap-6">
+              {['AI Roadmap Insights', 'How It Works', 'Career Chatbot', 'AI Interview Studio', "FAQ's"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="transition-colors"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-xs)',  // 7.96px
+                    color: 'var(--neutral-500)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-500)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--neutral-500)'}
+                >
+                  {item}
+                </a>
+              ))}
+            </nav>
           </div>
-          <Button variant="outline" onClick={() => navigate('/onboarding')}>
-            Get Started <FiArrowRight className="ml-2" />
-          </Button>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
+            <Button variant="text" size="md" onClick={() => navigate('/onboarding')}>
+              Log In
+            </Button>
+            <Button variant="primary" size="md" onClick={() => navigate('/onboarding')}>
+              Create Your Account
+            </Button>
+          </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <main className="px-6 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      {/* Hero Section - Compact, precise typography */}
+      <main className="px-6 py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Text */}
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 bg-background-primary text-primary px-4 py-2 rounded-xl text-sm font-semibold border border-primary/20">
-                <FiStar className="text-primary" />
+            <div className="space-y-5">
+              {/* Badge */}
+              <Badge variant="primary" size="md">
+                <FiStar size={10} style={{ marginRight: '4px' }} />
                 AI-Powered Career Platform
-              </div>
+              </Badge>
 
-              <h2 className="text-6xl lg:text-7xl font-extrabold text-neutral-darkest leading-[1.1] tracking-tight">
+              {/* Main Heading - Using design token sizes */}
+              <h2
+                className="leading-tight"
+                style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--text-6xl)',  // 34.74px
+                  color: 'var(--neutral-800)',
+                  fontWeight: 'normal',
+                  lineHeight: '1.2'
+                }}
+              >
                 Launch Your
                 <br />
-                <span className="text-primary"> Tech Career</span>
+                <span style={{ color: 'var(--primary-500)' }}>Tech Career</span>
                 <br />
                 With Confidence
               </h2>
 
-              <p className="text-xl text-neutral-steel leading-relaxed max-w-xl">
+              {/* Subtitle - Small, precise */}
+              <p
+                className="max-w-xl"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 'var(--text-md)',  // 10px
+                  color: 'var(--neutral-500)',
+                  lineHeight: '1.6'
+                }}
+              >
                 Transform "I want a tech career" into a clear, personalized roadmap.
                 Get AI-powered guidance, skill recommendations, and direct pathways
                 to internships at top companies.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
-                  size="lg"
+                  variant="primary"
+                  size="md"
                   onClick={() => navigate('/onboarding')}
-                  className="group shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all"
                 >
-                  Start Your Journey <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  Start Your Journey <FiArrowRight size={10} style={{ marginLeft: '4px' }} />
                 </Button>
                 <Button
-                  size="lg"
-                  variant="outline"
+                  variant="secondary"
+                  size="md"
                   onClick={() => {
                     document.getElementById('features')?.scrollIntoView({
                       behavior: 'smooth'
@@ -83,202 +149,452 @@ const Landing = () => {
                 </Button>
               </div>
 
-              <div className="flex items-center gap-8 pt-6">
+              {/* Stats - Compact */}
+              <div className="flex items-center gap-6 pt-4">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <div className="text-3xl font-bold text-status-success">100%</div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-primary)',
+                      fontSize: 'var(--text-2xl)',  // 19.30px
+                      color: 'var(--success-500)',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    100%
                   </div>
-                  <div className="text-sm text-neutral-steel">Free Forever</div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 'var(--text-xs)',  // 7.96px
+                      color: 'var(--neutral-500)'
+                    }}
+                  >
+                    Free Forever
+                  </div>
                 </div>
-                <div className="w-px h-12 bg-background-primary"></div>
+                <div className="w-px h-10" style={{ backgroundColor: 'var(--neutral-200)' }}></div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <FiTrendingUp className="text-primary text-2xl" />
-                    <div className="text-3xl font-bold text-neutral-darkest">AI</div>
+                    <FiTrendingUp size={16} style={{ color: 'var(--primary-500)' }} />
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-primary)',
+                        fontSize: 'var(--text-2xl)',  // 19.30px
+                        color: 'var(--neutral-800)',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      AI
+                    </span>
                   </div>
-                  <div className="text-sm text-neutral-steel">Powered</div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 'var(--text-xs)',  // 7.96px
+                      color: 'var(--neutral-500)'
+                    }}
+                  >
+                    Powered
+                  </div>
                 </div>
-                <div className="w-px h-12 bg-background-primary"></div>
+                <div className="w-px h-10" style={{ backgroundColor: 'var(--neutral-200)' }}></div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <FiUsers className="text-secondary text-2xl" />
-                    <div className="text-3xl font-bold text-neutral-darkest">6+</div>
+                    <FiUsers size={16} style={{ color: 'var(--primary-500)' }} />
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-primary)',
+                        fontSize: 'var(--text-2xl)',  // 19.30px
+                        color: 'var(--neutral-800)',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      6+
+                    </span>
                   </div>
-                  <div className="text-sm text-neutral-steel">Partners</div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 'var(--text-xs)',  // 7.96px
+                      color: 'var(--neutral-500)'
+                    }}
+                  >
+                    Partners
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column - Interactive Preview */}
+            {/* Right Column - Interactive Preview - Compact Card */}
             <div className="relative">
-              <div className="relative z-10 bg-white rounded-2xl p-8 shadow-card-hover border border-background-primary/30">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 p-4 bg-background-primary rounded-xl border border-primary/10">
-                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-card">
+              <Card variant="default" padding="md">
+                <div className="space-y-4">
+                  {/* User Profile Mock */}
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{ backgroundColor: 'var(--primary-50)' }}
+                  >
+                    <div
+                      className="rounded-full flex items-center justify-center text-white leading-none"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        backgroundColor: 'var(--primary-500)',
+                        fontFamily: 'var(--font-primary)',
+                        fontSize: 'var(--text-lg)'
+                      }}
+                    >
                       A
                     </div>
                     <div className="flex-1">
-                      <div className="h-3 bg-background-secondary rounded-full w-3/4 mb-2"></div>
-                      <div className="h-2 bg-background-lighter rounded-full w-1/2"></div>
+                      <div className="h-2 rounded-full w-3/4 mb-2" style={{ backgroundColor: 'var(--neutral-200)' }}></div>
+                      <div className="h-2 rounded-full w-1/2" style={{ backgroundColor: 'var(--neutral-100)' }}></div>
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 p-3 bg-background-primary rounded-xl border border-status-success/20">
-                      <div className="w-8 h-8 rounded-full bg-status-success flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                  {/* Progress Steps */}
+                  <div className="space-y-2">
+                    <div
+                      className="flex items-center gap-2 p-2 rounded-lg border"
+                      style={{ backgroundColor: 'var(--success-500)/10', borderColor: 'var(--success-500)/20' }}
+                    >
+                      <div
+                        className="rounded-full flex items-center justify-center text-white leading-none"
+                        style={{
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'var(--success-500)',
+                          fontSize: 'var(--text-xs)',
+                          fontFamily: 'var(--font-primary)'
+                        }}
+                      >
                         ✓
                       </div>
-                      <div className="h-3 bg-status-success/20 rounded-full flex-1"></div>
+                      <div className="h-2 rounded-full flex-1" style={{ backgroundColor: 'var(--success-500)/20' }}></div>
                     </div>
-                    <div className="flex items-center gap-3 p-3 bg-background-primary rounded-xl border border-primary/20">
-                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold shadow-sm animate-pulse">
+                    <div
+                      className="flex items-center gap-2 p-2 rounded-lg border"
+                      style={{ backgroundColor: 'var(--primary-50)', borderColor: 'var(--primary-500)/20' }}
+                    >
+                      <div
+                        className="rounded-full flex items-center justify-center text-white leading-none animate-pulse"
+                        style={{
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'var(--primary-500)',
+                          fontSize: 'var(--text-xs)',
+                          fontFamily: 'var(--font-primary)'
+                        }}
+                      >
                         •
                       </div>
-                      <div className="h-3 bg-primary/20 rounded-full flex-1"></div>
+                      <div className="h-2 rounded-full flex-1" style={{ backgroundColor: 'var(--primary-500)/20' }}></div>
                     </div>
-                    <div className="flex items-center gap-3 p-3 bg-background-lighter rounded-xl border border-background-secondary">
-                      <div className="w-8 h-8 rounded-full bg-background-secondary flex items-center justify-center text-neutral-steel text-sm">
+                    <div
+                      className="flex items-center gap-2 p-2 rounded-lg border"
+                      style={{ backgroundColor: 'var(--neutral-50)', borderColor: 'var(--neutral-200)' }}
+                    >
+                      <div
+                        className="rounded-full flex items-center justify-center leading-none"
+                        style={{
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'var(--neutral-200)',
+                          color: 'var(--neutral-500)',
+                          fontSize: 'var(--text-xs)',
+                          fontFamily: 'var(--font-primary)'
+                        }}
+                      >
                         ○
                       </div>
-                      <div className="h-3 bg-background-secondary rounded-full flex-1"></div>
+                      <div className="h-2 rounded-full flex-1" style={{ backgroundColor: 'var(--neutral-200)' }}></div>
                     </div>
                   </div>
 
-                  <div className="bg-background-primary rounded-xl p-5 border border-primary/20">
-                    <div className="flex items-center gap-3 mb-3">
-                      <FiTarget className="text-primary text-xl" />
-                      <div className="h-3 bg-primary/30 rounded-full w-40"></div>
+                  {/* Progress Card */}
+                  <div
+                    className="rounded-lg p-4 border"
+                    style={{ backgroundColor: 'var(--primary-50)', borderColor: 'var(--primary-500)/20' }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <FiTarget size={14} style={{ color: 'var(--primary-500)' }} />
+                      <div className="h-2 rounded-full w-32" style={{ backgroundColor: 'var(--primary-500)/30' }}></div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="h-2 bg-background-secondary rounded-full w-full"></div>
-                      <div className="h-2 bg-primary rounded-full w-2/3"></div>
+                    <div className="space-y-1.5">
+                      <div className="h-1.5 rounded-full w-full" style={{ backgroundColor: 'var(--neutral-200)' }}></div>
+                      <div className="h-1.5 rounded-full w-2/3" style={{ backgroundColor: 'var(--primary-500)' }}></div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
 
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-secondary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+              {/* Decorative elements - subtle */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full blur-2xl animate-pulse" style={{ backgroundColor: 'var(--primary-500)/10' }}></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full blur-2xl animate-pulse" style={{ backgroundColor: 'var(--primary-300)/10', animationDelay: '1s' }}></div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Features Section */}
-      <section id="features" className="px-6 py-24 bg-white border-y border-background-primary">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-background-secondary text-secondary px-4 py-2 rounded-xl text-sm font-semibold mb-6">
-              <FiStar className="text-secondary" />
-              Platform Features
+      {/* Features Section - Compact with exact Card component */}
+      <section
+        id="features"
+        className="px-6 py-16 bg-white border-y"
+        style={{ borderColor: 'var(--neutral-200)' }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            {/* Section Badge */}
+            <div className="mb-4">
+              <Badge variant="primary" size="md">
+                <FiStar size={10} style={{ marginRight: '4px' }} />
+                Platform Features
+              </Badge>
             </div>
-            <h3 className="text-5xl font-bold text-neutral-darkest mb-4">
+
+            {/* Section Title */}
+            <h3
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-5xl)',  // 24px
+                color: 'var(--neutral-800)',
+                fontWeight: 'normal',
+                marginBottom: '12px'
+              }}
+            >
               Everything You Need to Succeed
             </h3>
-            <p className="text-xl text-neutral-steel max-w-2xl mx-auto">
+
+            {/* Subtitle */}
+            <p
+              className="max-w-2xl mx-auto"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-md)',  // 10px
+                color: 'var(--neutral-500)',
+                lineHeight: '1.6'
+              }}
+            >
               AI-powered tools designed for students like you
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Features Grid - 3 columns, using Card component */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((feature, index) => (
-              <div
+              <Card
                 key={index}
-                className="group relative bg-white p-8 rounded-xl border border-background-primary hover:border-primary/30 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1"
+                variant="default"
+                padding="md"
+                className="group transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
               >
-                <div className="w-14 h-14 bg-background-primary rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <feature.icon className="text-primary text-2xl" />
+                {/* Icon */}
+                <div
+                  className="flex items-center justify-center mb-4 rounded-lg group-hover:scale-105 transition-transform"
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    backgroundColor: 'var(--primary-50)'
+                  }}
+                >
+                  <feature.icon size={20} style={{ color: 'var(--primary-500)' }} />
                 </div>
-                <h4 className="text-xl font-bold text-neutral-darkest mb-3">
+
+                {/* Title */}
+                <h4
+                  className="mb-2"
+                  style={{
+                    fontFamily: 'var(--font-primary)',
+                    fontSize: 'var(--text-xl)',  // 16px
+                    color: 'var(--neutral-800)',
+                    fontWeight: 'normal'
+                  }}
+                >
                   {feature.title}
                 </h4>
-                <p className="text-neutral-steel leading-relaxed">
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-xs)',  // 7.96px
+                    color: 'var(--neutral-500)',
+                    lineHeight: '1.6'
+                  }}
+                >
                   {feature.description}
                 </p>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Sponsors Section */}
-      <section className="px-6 py-24 bg-gradient-to-br from-background-lighter to-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-background-primary text-primary px-4 py-2 rounded-xl text-sm font-semibold mb-6">
-            <FiUsers className="text-primary" />
-            Trusted Partners
+      {/* Sponsors Section - Compact */}
+      <section className="px-6 py-16 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          {/* Section Badge */}
+          <div className="mb-4">
+            <Badge variant="primary" size="md">
+              <FiUsers size={10} style={{ marginRight: '4px' }} />
+              Trusted Partners
+            </Badge>
           </div>
-          <h3 className="text-4xl font-bold text-neutral-darkest mb-4">
+
+          {/* Section Title */}
+          <h3
+            style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'var(--text-4xl)',  // 23.53px
+              color: 'var(--neutral-800)',
+              fontWeight: 'normal',
+              marginBottom: '8px'
+            }}
+          >
             Partnering With Leading Companies
           </h3>
-          <p className="text-lg text-neutral-steel mb-12 max-w-2xl mx-auto">
+
+          {/* Subtitle */}
+          <p
+            className="mb-10 max-w-2xl mx-auto"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-md)',  // 10px
+              color: 'var(--neutral-500)',
+              lineHeight: '1.6'
+            }}
+          >
             Direct pathways to internships and opportunities at top organizations
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
+          {/* Sponsors Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 items-center">
             {sponsors.map((sponsor, index) => (
-              <div
+              <Card
                 key={index}
-                className="group bg-white rounded-xl p-8 shadow-card hover:shadow-card-hover transition-all duration-300 border border-background-primary hover:border-primary/20 hover:-translate-y-1"
+                variant="default"
+                padding="sm"
+                className="group transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="h-16 mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="h-12 mb-2 flex items-center justify-center group-hover:scale-105 transition-transform">
                   <img
                     src={sponsor.logo}
                     alt={`${sponsor.name} logo`}
                     className="max-h-full max-w-full object-contain"
                   />
                 </div>
-                <div className="text-sm font-semibold text-neutral-steel">
+                <div
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-2xs)',  // 6.64px
+                    color: 'var(--neutral-500)',
+                    fontWeight: '500'
+                  }}
+                >
                   {sponsor.name}
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-6 py-24">
+      {/* CTA Section - Compact */}
+      <section className="px-6 py-16">
         <div className="max-w-5xl mx-auto">
-          <div className="relative bg-primary rounded-2xl p-12 md:p-16 text-white shadow-card-hover overflow-hidden">
+          <div
+            className="relative rounded-xl p-10 md:p-12 text-white overflow-hidden"
+            style={{
+              background: 'var(--primary-500)',
+              boxShadow: '0 4px 12px rgba(41, 130, 161, 0.2)'
+            }}
+          >
             {/* Decorative background */}
-            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.5))]"></div>
+            <div className="absolute inset-0 opacity-10" style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+              backgroundSize: '24px 24px'
+            }}></div>
 
             <div className="relative z-10 text-center">
-              <h3 className="text-4xl md:text-5xl font-bold mb-6">
+              <h3
+                className="mb-4"
+                style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--text-5xl)',  // 24px
+                  fontWeight: 'normal',
+                  color: 'white'
+                }}
+              >
                 Ready to Launch Your Career?
               </h3>
-              <p className="text-xl mb-10 opacity-95 max-w-2xl mx-auto">
+              <p
+                className="mb-8 max-w-2xl mx-auto opacity-95"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 'var(--text-md)',  // 10px
+                  lineHeight: '1.6'
+                }}
+              >
                 Join thousands of students building their tech careers with AI-powered guidance
               </p>
               <Button
-                size="lg"
                 variant="secondary"
-                className="shadow-card group"
+                size="md"
                 onClick={() => navigate('/onboarding')}
+                className="group"
               >
-                Get Started for Free <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                Get Started for Free <FiArrowRight size={10} style={{ marginLeft: '4px' }} />
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-6 py-12 bg-neutral-darkest text-white border-t border-neutral-dark">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-card">
-                <FiZap className="text-white text-xl" />
-              </div>
-              <span className="font-bold text-xl">LaunchPad</span>
-            </div>
-            <p className="text-neutral-steel text-sm max-w-md">
+      {/* Footer - Compact */}
+      <footer
+        className="px-6 py-10 text-white border-t"
+        style={{
+          backgroundColor: 'var(--neutral-800)',
+          borderColor: 'var(--neutral-700)'
+        }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col items-center text-center space-y-3">
+            {/* Logo */}
+            <h1
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-xl)',  // 16px
+                color: 'var(--primary-500)',
+                fontWeight: 'normal'
+              }}
+            >
+              LaunchPad
+            </h1>
+
+            {/* Tagline */}
+            <p
+              className="max-w-md"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-xs)',  // 7.96px
+                color: 'var(--neutral-400)',
+                lineHeight: '1.5'
+              }}
+            >
               Empowering students to launch meaningful tech careers with AI-powered guidance
             </p>
-            <div className="text-neutral-steel text-xs pt-4 border-t border-neutral-dark w-full">
+
+            {/* Copyright */}
+            <div
+              className="pt-3 border-t w-full"
+              style={{
+                borderColor: 'var(--neutral-700)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-3xs)',  // 6.38px
+                color: 'var(--neutral-400)'
+              }}
+            >
               © 2025 LaunchPad. Built for students, by students.
             </div>
           </div>

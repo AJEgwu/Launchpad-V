@@ -112,41 +112,82 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
     )
   }
 
-  // Full view
+  // Full view - Rebuilt to match SVG specifications
+  // 3-column grid, "We Found 3 Matches!", centered layout
   return (
     <div className="space-y-6">
       {showTitle && (
-        <div className="flex items-center gap-3">
-          <FiTrendingUp className="text-3xl text-primary" />
-          <div>
-            <h2 className="text-2xl font-bold text-neutral-darkest">Your Top Role Matches</h2>
-            <p className="text-neutral-steel">
-              Based on your profile, skills, and experience
-            </p>
-          </div>
+        <div className="text-center">
+          {/* Header - "We Found 3 Matches!" from SVG spec */}
+          <h2
+            className="mb-2"
+            style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'var(--text-6xl)',  // 34.74px - exact SVG spec
+              color: 'var(--neutral-800)',
+              fontWeight: 'normal'
+            }}
+          >
+            We Found {roleMatches.length} Match{roleMatches.length !== 1 ? 'es' : ''}!
+          </h2>
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-md)',  // 10px
+              color: 'var(--neutral-500)'
+            }}
+          >
+            Based on your profile, skills, and experience
+          </p>
         </div>
       )}
 
       {roleMatches.length === 0 ? (
-        <Card>
+        <Card variant="default" padding="lg">
           <div className="text-center p-8">
-            <FiTarget className="mx-auto text-5xl text-neutral-slate mb-4" />
-            <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
+            <FiTarget size={48} style={{ margin: '0 auto 16px', color: 'var(--neutral-300)' }} />
+            <h3
+              className="mb-2"
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-xl)',  // 16px
+                color: 'var(--neutral-800)'
+              }}
+            >
               No matches calculated yet
             </h3>
-            <p className="text-neutral-steel mb-4">
+            <p
+              className="mb-4"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-md)',  // 10px
+                color: 'var(--neutral-500)'
+              }}
+            >
               Complete your profile to see personalized role recommendations
             </p>
             <button
               onClick={calculateMatches}
-              className="px-6 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
+              className="rounded-lg transition-colors"
+              style={{
+                padding: '8px 16px',
+                backgroundColor: 'var(--primary-500)',
+                color: 'white',
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-2xs)',  // 6.64px
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Calculate Matches
             </button>
           </div>
         </Card>
       ) : (
-        <div className="space-y-4">
+        /* 3-column grid from SVG spec - equal width, 20px gap */
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {roleMatches.slice(0, limit).map((match, index) => (
             <RoleMatchCard
               key={match.roleId}
@@ -158,7 +199,14 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
       )}
 
       {roleMatches.length > limit && (
-        <p className="text-center text-neutral-steel">
+        <p
+          className="text-center"
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'var(--text-xs)',  // 7.96px
+            color: 'var(--neutral-500)'
+          }}
+        >
           Showing top {limit} of {roleMatches.length} matches
         </p>
       )}

@@ -7,11 +7,9 @@ import { FiRefreshCw, FiEdit3, FiGrid, FiList } from 'react-icons/fi'
 
 /**
  * RoadmapHeader - Header component for the roadmap view
- *
- * Displays:
- * - Title and subtitle with dynamic stats
- * - User type and selected role chips
- * - Controls for regenerating, refining, and view toggling
+ * Rebuilt to match SVG design specifications
+ * Title: "Here's your Roadmap" (34.74px, Comfortaa)
+ * Compact spacing and small fonts throughout
  */
 const RoadmapHeader = ({
   overallProgress = 0,
@@ -36,83 +34,78 @@ const RoadmapHeader = ({
     }
   }
 
-  // Build subtitle based on user type
-  const buildSubtitle = () => {
-    const parts = []
-
-    // Track/Role
-    parts.push(`Track: ${displayRole}`)
-
-    // Readiness
-    parts.push(`Readiness: ${overallProgress}%`)
-
-    // User-type specific info
-    if (profile?.userType === 'student' && profile?.graduationTimeline) {
-      parts.push(`Graduating: ${profile.graduationTimeline}`)
-    } else if (profile?.userType === 'professional' && profile?.experienceLevel) {
-      const level = profile.experienceLevel.charAt(0).toUpperCase() + profile.experienceLevel.slice(1)
-      parts.push(level)
-    }
-
-    return parts.join(' · ')
-  }
-
   return (
-    <div className="bg-white border-b-2 border-background-primary sticky top-0 z-10 shadow-card">
-      <div className="max-w-7xl mx-auto px-8 py-6">
+    <div
+      className="bg-white border-b sticky top-0 z-10"
+      style={{
+        borderColor: 'var(--neutral-200)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-8 py-5">
         {/* Top Row: Title and Controls */}
-        <div className="flex items-start justify-between gap-6 mb-4">
-          {/* Left: Title and Subtitle */}
+        <div className="flex items-start justify-between gap-6 mb-3">
+          {/* Left: Title */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
-              Your LaunchPad Roadmap
+            <h1
+              className="leading-tight"
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-6xl)',  // 34.74px - exact SVG spec
+                color: 'var(--neutral-800)',
+                fontWeight: 'normal'
+              }}
+            >
+              Here's your Roadmap
             </h1>
-            <p className="text-neutral-steel text-sm">
-              {buildSubtitle()}
-            </p>
           </div>
 
-          {/* Right: Controls */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Right: Controls - Compact */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* View Mode Toggle */}
-            <div className="flex items-center gap-1 p-1 bg-background-primary rounded-xl">
+            <div
+              className="flex items-center gap-0.5 p-0.5 rounded-lg"
+              style={{ backgroundColor: 'var(--primary-50)' }}
+            >
               <button
                 onClick={() => onViewModeChange?.('detailed')}
-                className={`
-                  px-3 py-2 rounded-md text-sm font-medium transition-all
-                  ${viewMode === 'detailed'
-                    ? 'bg-white text-neutral-darkest shadow-card'
-                    : 'text-neutral-steel hover:text-neutral-darkest'
-                  }
-                `}
+                className={`px-2 py-1.5 rounded-md transition-all ${
+                  viewMode === 'detailed'
+                    ? 'bg-white shadow-sm'
+                    : ''
+                }`}
+                style={{
+                  color: viewMode === 'detailed' ? 'var(--neutral-800)' : 'var(--neutral-500)'
+                }}
                 title="Detailed view"
               >
-                <FiList className="w-4 h-4" />
+                <FiList size={14} />
               </button>
               <button
                 onClick={() => onViewModeChange?.('compact')}
-                className={`
-                  px-3 py-2 rounded-md text-sm font-medium transition-all
-                  ${viewMode === 'compact'
-                    ? 'bg-white text-neutral-darkest shadow-card'
-                    : 'text-neutral-steel hover:text-neutral-darkest'
-                  }
-                `}
+                className={`px-2 py-1.5 rounded-md transition-all ${
+                  viewMode === 'compact'
+                    ? 'bg-white shadow-sm'
+                    : ''
+                }`}
+                style={{
+                  color: viewMode === 'compact' ? 'var(--neutral-800)' : 'var(--neutral-500)'
+                }}
                 title="Compact view"
               >
-                <FiGrid className="w-4 h-4" />
+                <FiGrid size={14} />
               </button>
             </div>
 
             {/* Refine Button */}
             {onRefine && (
               <Button
-                variant="outline"
+                variant="secondary"
                 size="md"
                 onClick={onRefine}
-                className="flex items-center gap-2"
+                className="flex items-center gap-1.5"
               >
-                <FiEdit3 className="w-4 h-4" />
+                <FiEdit3 size={10} />
                 Refine
               </Button>
             )}
@@ -124,25 +117,25 @@ const RoadmapHeader = ({
                 size="md"
                 onClick={handleRegenerate}
                 disabled={isRegenerating}
-                className="flex items-center gap-2"
+                className="flex items-center gap-1.5"
               >
-                <FiRefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
+                <FiRefreshCw size={10} className={isRegenerating ? 'animate-spin' : ''} />
                 {isRegenerating ? 'Regenerating...' : 'Regenerate'}
               </Button>
             )}
           </div>
         </div>
 
-        {/* Bottom Row: Chips/Badges */}
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* User Type Chip */}
+        {/* Bottom Row: Badges and Progress */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* User Type Badge */}
           {userTypeInfo && (
             <Badge variant="default" size="md">
               {userTypeInfo.icon} {userTypeInfo.label}
             </Badge>
           )}
 
-          {/* Role Chips */}
+          {/* Role Badges - Small pill badges from SVG spec */}
           {roadmap?.tracks && roadmap.tracks.length > 0 && (
             <>
               {roadmap.tracks.map((track, index) => (
@@ -157,10 +150,27 @@ const RoadmapHeader = ({
             </>
           )}
 
-          {/* Progress Indicator */}
+          {/* Progress Indicator - Large percentage from SVG */}
           <div className="ml-auto flex items-center gap-2">
-            <span className="text-sm text-neutral-steel">Overall Progress:</span>
-            <span className="text-lg font-bold text-primary">{overallProgress}%</span>
+            <span
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-xs)',  // 7.96px
+                color: 'var(--neutral-500)'
+              }}
+            >
+              Overall Progress:
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--text-2xl)',  // 19.30px
+                color: 'var(--primary-500)',
+                fontWeight: 'bold'
+              }}
+            >
+              {overallProgress}%
+            </span>
           </div>
         </div>
       </div>

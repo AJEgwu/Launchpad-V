@@ -1,3 +1,10 @@
+/**
+ * Modal Component - Rebuilt to match SVG design specifications
+ * Border Radius: 12px (matching Card component)
+ * Padding: 20px (standard)
+ * Typography: Comfortaa for title
+ */
+
 import { useEffect } from 'react'
 import Button from './Button'
 
@@ -34,33 +41,49 @@ const Modal = ({
       <div className="flex min-h-screen items-center justify-center p-4">
         {/* Backdrop */}
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity backdrop-blur-sm"
           onClick={onClose}
         />
 
-        {/* Modal */}
-        <div className={`relative bg-white rounded-2xl shadow-xl w-full ${sizes[size]} z-10`}>
+        {/* Modal - matching Card component styling */}
+        <div
+          className={`relative bg-white rounded-[12px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] w-full ${sizes[size]} z-10 animate-slide-in`}
+        >
           {/* Header */}
           {title && (
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+            <div
+              className="flex items-center justify-between p-5 border-b"
+              style={{ borderColor: 'var(--neutral-200)' }}
+            >
+              <h2
+                className="text-[1.000rem] font-normal leading-tight"
+                style={{ fontFamily: 'var(--font-primary)', color: 'var(--text-primary)' }}
+              >
+                {title}
+              </h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="transition-colors"
+                style={{ color: 'var(--neutral-400)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--neutral-600)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--neutral-400)'}
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
           )}
 
-          {/* Content */}
-          <div className="p-6">{children}</div>
+          {/* Content - 20px padding matching card specs */}
+          <div className="p-5">{children}</div>
 
           {/* Footer */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
+            <div
+              className="flex items-center justify-end gap-3 p-5 border-t"
+              style={{ borderColor: 'var(--neutral-200)' }}
+            >
               {footer}
             </div>
           )}

@@ -55,32 +55,39 @@ const MilestoneNode = ({
     return FiTarget
   }
 
-  // Get status configuration
+  // Get status configuration - Exact SVG specifications
+  // Colors: #30639a (current), #6acc79 (complete), #d3d5d6 (future)
   const getStatusConfig = () => {
     switch (milestone.status) {
       case 'completed':
         return {
           icon: FiCheckCircle,
-          color: 'bg-status-success border-status-success text-white',
-          ringColor: 'ring-status-success/30',
-          dotColor: 'bg-status-success',
+          bgColor: '#6acc79',  // var(--success-500) from SVG
+          borderColor: '#6acc79',
+          textColor: '#ffffff',
+          ringColor: 'rgba(106, 204, 121, 0.3)',
+          dotColor: '#6acc79',
           label: 'Completed'
         }
       case 'in_progress':
         return {
           icon: FiLoader,
-          color: 'bg-primary border-primary text-white',
-          ringColor: 'ring-primary/30',
-          dotColor: 'bg-primary',
+          bgColor: '#30639a',  // var(--primary-400) from SVG
+          borderColor: '#30639a',
+          textColor: '#ffffff',
+          ringColor: 'rgba(48, 99, 154, 0.3)',
+          dotColor: '#30639a',
           label: 'In Progress'
         }
       case 'not_started':
       default:
         return {
           icon: FiCircle,
-          color: 'bg-white border-background-primary text-neutral-steel',
-          ringColor: 'ring-background-primary',
-          dotColor: 'bg-background-secondary',
+          bgColor: '#ffffff',
+          borderColor: '#d3d5d6',  // var(--neutral-200) from SVG
+          textColor: '#6f7173',  // var(--neutral-500)
+          ringColor: 'rgba(211, 213, 214, 0.5)',
+          dotColor: '#d3d5d6',
           label: 'Not Started'
         }
     }
@@ -105,64 +112,97 @@ const MilestoneNode = ({
   }
 
   if (isCompact) {
-    // Compact view: just a dot with status color
+    // Compact view: Circle with exact SVG specs (40px diameter, 3px border)
     return (
       <button
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`
-          relative group
-          ${isSelected ? 'ring-4 ring-offset-2 ' + statusConfig.ringColor : ''}
-        `}
+        className={`relative group ${isSelected ? 'ring-4 ring-offset-2' : ''}`}
+        style={isSelected ? { '--tw-ring-color': statusConfig.ringColor } : {}}
         title={milestone.name}
       >
-        <div className={`
-          w-3 h-3 rounded-full transition-all
-          ${statusConfig.dotColor}
-          ${isHovered ? 'scale-150' : 'scale-100'}
-        `} />
+        <div
+          className="rounded-full transition-all flex items-center justify-center"
+          style={{
+            width: '40px',
+            height: '40px',
+            backgroundColor: statusConfig.bgColor,
+            border: `3px solid ${statusConfig.borderColor}`,
+            color: statusConfig.textColor,
+            transform: isHovered ? 'scale(1.1)' : 'scale(1)'
+          }}
+        >
+          <StatusIcon size={16} />
+        </div>
 
         {/* Tooltip on hover */}
         {isHovered && (
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-neutral-darkest text-white text-xs rounded-lg whitespace-nowrap z-20 shadow-card-hover">
+          <div
+            className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 rounded-lg whitespace-nowrap z-20 shadow-lg"
+            style={{
+              backgroundColor: 'var(--neutral-800)',
+              color: 'white',
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-2xs)',  // 6.64px
+              maxWidth: '200px',
+              whiteSpace: 'normal'
+            }}
+          >
             {milestone.name}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-neutral-darkest" />
+            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent" style={{ borderTopColor: 'var(--neutral-800)' }} />
           </div>
         )}
       </button>
     )
   }
 
-  // Detailed view: full node with icon and hover details
+  // Detailed view: Compact card with exact specifications
   return (
     <button
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`
-        relative group w-full text-left
-        ${isSelected ? 'ring-4 ring-offset-2 ' + statusConfig.ringColor : ''}
-      `}
+      className={`relative group w-full text-left ${isSelected ? 'ring-2 ring-offset-2' : ''}`}
+      style={isSelected ? { '--tw-ring-color': statusConfig.ringColor } : {}}
     >
-      <div className={`
-        flex items-center gap-3 p-3 rounded-xl border-2 transition-all duration-200
-        ${statusConfig.color}
-        ${isHovered ? 'shadow-card-hover scale-105' : 'shadow-card'}
-      `}>
-        {/* Status Icon */}
-        <div className="flex-shrink-0">
-          <StatusIcon className="w-5 h-5" />
+      <div
+        className="flex items-center gap-2 p-2.5 rounded-lg transition-all duration-200"
+        style={{
+          backgroundColor: statusConfig.bgColor,
+          border: `2px solid ${statusConfig.borderColor}`,
+          color: statusConfig.textColor,
+          boxShadow: isHovered ? '0 4px 12px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)',
+          transform: isHovered ? 'scale(1.02)' : 'scale(1)'
+        }}
+      >
+        {/* Status Icon Circle */}
+        <div
+          className="flex-shrink-0 rounded-full flex items-center justify-center"
+          style={{
+            width: '28px',
+            height: '28px',
+            backgroundColor: milestone.status === 'not_started' ? statusConfig.borderColor : 'rgba(255,255,255,0.2)'
+          }}
+        >
+          <StatusIcon size={14} />
         </div>
 
         {/* Category Icon */}
-        <div className="flex-shrink-0">
-          <MilestoneIcon className="w-4 h-4 opacity-70" />
+        <div className="flex-shrink-0 opacity-70">
+          <MilestoneIcon size={12} />
         </div>
 
         {/* Title */}
         <div className="flex-1 min-w-0">
-          <div className="font-semibold text-sm truncate">
+          <div
+            className="truncate"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--text-xs)',  // 7.96px
+              fontWeight: '500'
+            }}
+          >
             {milestone.name}
           </div>
         </div>
@@ -173,38 +213,85 @@ const MilestoneNode = ({
           className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
           title="Change status"
         >
-          <div className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center">
-            <span className="text-xs">→</span>
+          <div
+            className="w-5 h-5 rounded-full flex items-center justify-center hover:brightness-90"
+            style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
+          >
+            <span style={{ fontSize: 'var(--text-3xs)' }}>→</span>
           </div>
         </button>
       </div>
 
-      {/* Hover Details Card */}
+      {/* Hover Details Card - Compact */}
       {isHovered && milestone.description && (
-        <div className="absolute left-0 top-full mt-2 p-4 bg-white rounded-xl shadow-card-hover border-2 border-background-primary z-30 w-80 max-w-sm">
-          <div className="space-y-3">
+        <div
+          className="absolute left-0 top-full mt-2 p-3 bg-white rounded-lg z-30 w-72 max-w-sm"
+          style={{
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            border: `1px solid ${statusConfig.borderColor}`
+          }}
+        >
+          <div className="space-y-2">
             <div>
-              <div className="font-bold text-neutral-darkest mb-1">{milestone.name}</div>
-              <div className="text-sm text-neutral-steel">{milestone.description}</div>
+              <div
+                className="mb-1"
+                style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--text-sm)',  // 9.51px
+                  color: 'var(--neutral-800)',
+                  fontWeight: '500'
+                }}
+              >
+                {milestone.name}
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 'var(--text-2xs)',  // 6.64px
+                  color: 'var(--neutral-500)',
+                  lineHeight: '1.5'
+                }}
+              >
+                {milestone.description}
+              </div>
             </div>
 
             {milestone.skills && milestone.skills.length > 0 && (
               <div>
-                <div className="text-xs font-semibold text-neutral-steel mb-1">Skills:</div>
+                <div
+                  className="mb-1"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-3xs)',  // 6.38px
+                    color: 'var(--neutral-500)',
+                    fontWeight: '500'
+                  }}
+                >
+                  Skills:
+                </div>
                 <div className="flex flex-wrap gap-1">
                   {milestone.skills.slice(0, 5).map(skill => (
-                    <Badge key={skill} variant="default" size="sm">
+                    <Badge key={skill} variant="default" size="md">
                       {skill}
                     </Badge>
                   ))}
                   {milestone.skills.length > 5 && (
-                    <span className="text-xs text-neutral-slate">+{milestone.skills.length - 5} more</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-3xs)', color: 'var(--neutral-400)' }}>
+                      +{milestone.skills.length - 5} more
+                    </span>
                   )}
                 </div>
               </div>
             )}
 
-            <div className="text-xs text-neutral-slate">
+            <div
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-3xs)',  // 6.38px
+                color: 'var(--neutral-400)',
+                fontStyle: 'italic'
+              }}
+            >
               Click to view full details
             </div>
           </div>
