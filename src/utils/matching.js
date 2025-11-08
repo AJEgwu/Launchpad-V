@@ -114,6 +114,7 @@ export const getNextSteps = (roadmap) => {
       nextSteps.push({
         type: 'continue',
         phase: phase.name,
+        phaseId: phase.id,
         milestone: inProgress[0]
       })
     }
@@ -122,6 +123,7 @@ export const getNextSteps = (roadmap) => {
       nextSteps.push({
         type: 'start',
         phase: phase.name,
+        phaseId: phase.id,
         milestone: notStarted[0]
       })
     }

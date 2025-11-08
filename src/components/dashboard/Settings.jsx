@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { useStore } from '../../store/useStore'
+import { USER_TYPES, USER_TYPE_INFO } from '../../config/userTypes'
 import Card from '../Card'
 import Button from '../Button'
 import Input from '../Input'
 import Badge from '../Badge'
 import ResumeUpload from '../careerMatching/ResumeUpload'
+import { FiCheckCircle } from 'react-icons/fi'
 
 const Settings = () => {
-  const { settings, updateSettings, profile } = useStore()
+  const { settings, updateSettings, profile, setUserType } = useStore()
   const [apiKey, setApiKey] = useState(settings.apiKey || '')
   const [saved, setSaved] = useState(false)
+  const [userTypeChanged, setUserTypeChanged] = useState(false)
 
   const handleSave = () => {
     updateSettings({ apiKey: apiKey.trim() })
@@ -33,6 +36,53 @@ const Settings = () => {
             Configure your LaunchPad experience
           </p>
         </div>
+
+        {/* User Type Selection */}
+        <Card>
+          <h3 className="text-xl font-bold text-gray-900 mb-4">User Type</h3>
+          <p className="text-gray-600 mb-6">
+            Your user type affects roadmap structure, resource recommendations, and opportunity matching.
+          </p>
+          <div className="space-y-3">
+            {Object.entries(USER_TYPE_INFO).map(([type, info]) => (
+              <button
+                key={type}
+                onClick={() => {
+                  setUserType(type)
+                  setUserTypeChanged(true)
+                  setTimeout(() => setUserTypeChanged(false), 3000)
+                }}
+                className={`
+                  w-full p-4 rounded-xl border-2 transition-all duration-200 text-left
+                  ${profile?.userType === type
+                    ? 'border-primary bg-primary/5 shadow-md'
+                    : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                  }
+                `}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="text-2xl">{info.icon}</div>
+                  <div className="flex-1">
+                    <div className="font-bold text-gray-900 mb-1 flex items-center gap-2">
+                      {info.label}
+                      {profile?.userType === type && (
+                        <FiCheckCircle className="text-primary" />
+                      )}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {info.description}
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+          {userTypeChanged && (
+            <Badge variant="success" size="md" className="mt-4">
+              ✓ User type updated! Your roadmap and recommendations will reflect this change.
+            </Badge>
+          )}
+        </Card>
 
         {/* Profile Info */}
         <Card>

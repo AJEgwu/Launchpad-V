@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useStore } from '../../store/useStore'
 import { calculateFitScore } from '../../utils/matching'
+import { filterOpportunitiesByUserType, USER_TYPES } from '../../config/userTypes'
 import Card from '../Card'
 import Badge from '../Badge'
 import Button from '../Button'
@@ -13,13 +14,24 @@ const Opportunities = () => {
   const [selectedRole, setSelectedRole] = useState('all')
   const [selectedSponsor, setSelectedSponsor] = useState('all')
 
-  // Calculate fit scores for all opportunities
+  // Get user type from profile
+  const userType = profile?.userType || USER_TYPES.STUDENT
+
+  // Filter opportunities by user type first, then calculate fit scores
   const opportunitiesWithScores = useMemo(() => {
-    return opportunitiesData.opportunities.map(opp => {
+    // Apply user type filtering
+    const userTypeFiltered = filterOpportunitiesByUserType(
+      opportunitiesData.opportunities,
+      userType
+    )
+
+    // Calculate fit scores and combine with relevance scores
+    return userTypeFiltered.map(opp => {
       const fitResult = calculateFitScore(profile, roadmap, opp)
-      return { ...opp, fitResult }
+      const combinedScore = (fitResult.score * 0.7) + ((opp.relevanceScore || 50) * 0.3)
+      return { ...opp, fitResult: { ...fitResult, score: combinedScore } }
     }).sort((a, b) => b.fitResult.score - a.fitResult.score)
-  }, [profile, roadmap])
+  }, [profile, roadmap, userType])
 
   // Filter opportunities
   const filteredOpportunities = opportunitiesWithScores.filter(opp => {

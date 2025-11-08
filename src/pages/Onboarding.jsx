@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore'
 import { aiService } from '../services/ai'
 import { getRoleProfile } from '../config/roleProfiles'
+import { USER_TYPES, USER_TYPE_INFO } from '../config/userTypes'
 import {
   FiZap,
   FiUser,
@@ -16,7 +17,8 @@ import {
   FiArrowRight,
   FiCheckCircle,
   FiUpload,
-  FiTarget
+  FiTarget,
+  FiUsers
 } from 'react-icons/fi'
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -35,6 +37,7 @@ const Onboarding = () => {
   const [showMatches, setShowMatches] = useState(false)
   const [selectedRole, setSelectedRole] = useState(null)
   const [formData, setFormData] = useState({
+    userType: '',  // NEW: Student, Professional, or Other
     name: '',
     major: '',
     interests: [],
@@ -49,7 +52,7 @@ const Onboarding = () => {
     targetRoles: []
   })
 
-  const totalSteps = 8
+  const totalSteps = 9 // Increased from 8 to 9 for user type step
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -155,14 +158,15 @@ const Onboarding = () => {
 
   const isStepValid = () => {
     switch (currentStep) {
-      case 1: return formData.name.trim() !== ''
-      case 2: return formData.major.trim() !== ''
-      case 3: return true // Resume upload is optional
-      case 4: return formData.interests.length > 0
-      case 5: return true // Skills are optional
-      case 6: return formData.experienceLevel !== ''
-      case 7: return formData.graduationTimeline !== '' && formData.location !== ''
-      case 8: return formData.targetRoles.length > 0 || true // Can be "not sure"
+      case 1: return formData.userType !== '' // User type selection
+      case 2: return formData.name.trim() !== ''
+      case 3: return formData.major.trim() !== ''
+      case 4: return true // Resume upload is optional
+      case 5: return formData.interests.length > 0
+      case 6: return true // Skills are optional
+      case 7: return formData.experienceLevel !== ''
+      case 8: return formData.graduationTimeline !== '' && formData.location !== ''
+      case 9: return formData.targetRoles.length > 0 || true // Can be "not sure"
       default: return false
     }
   }
@@ -172,7 +176,7 @@ const Onboarding = () => {
     label: skillsData[key].role
   }))
 
-  const stepIcons = [FiUser, FiBookOpen, FiUpload, FiHeart, FiCode, FiClock, FiMapPin, FiBriefcase]
+  const stepIcons = [FiUsers, FiUser, FiBookOpen, FiUpload, FiHeart, FiCode, FiClock, FiMapPin, FiBriefcase]
   const StepIcon = stepIcons[currentStep - 1]
 
   return (
@@ -286,15 +290,62 @@ const Onboarding = () => {
               </div>
             </div>
 
-            {/* Step 1: Name */}
+            {/* Step 1: User Type Selection */}
             {currentStep === 1 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
-                    Welcome! Let's get started.
+                    Welcome to LaunchPad!
                   </h2>
                   <p className="text-gray-600 text-lg">
-                    First, what should we call you?
+                    Let's personalize your experience. Which best describes you?
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  {Object.entries(USER_TYPE_INFO).map(([type, info]) => (
+                    <button
+                      key={type}
+                      onClick={() => handleInputChange('userType', type)}
+                      className={`
+                        w-full p-6 rounded-xl border-2 transition-all duration-200 text-left
+                        ${formData.userType === type
+                          ? 'border-primary bg-primary/5 shadow-lg scale-[1.02]'
+                          : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                        }
+                      `}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="text-4xl">{info.icon}</div>
+                        <div className="flex-1">
+                          <div className="font-bold text-xl text-gray-900 mb-1">
+                            {info.label}
+                          </div>
+                          <div className="text-gray-600 mb-2">
+                            {info.description}
+                          </div>
+                          <div className="text-sm text-gray-500 italic">
+                            {info.examples}
+                          </div>
+                        </div>
+                        {formData.userType === type && (
+                          <FiCheckCircle className="text-primary text-2xl flex-shrink-0" />
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Name */}
+            {currentStep === 2 && (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
+                    Great! Now tell us your name.
+                  </h2>
+                  <p className="text-gray-600 text-lg">
+                    What should we call you?
                   </p>
                 </div>
                 <Input
@@ -308,8 +359,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 2: Major */}
-            {currentStep === 2 && (
+            {/* Step 3: Major/Background */}
+            {currentStep === 3 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -329,8 +380,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 3: Resume Upload */}
-            {currentStep === 3 && (
+            {/* Step 4: Resume Upload */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -354,8 +405,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 4: Interests */}
-            {currentStep === 4 && (
+            {/* Step 5: Interests */}
+            {currentStep === 5 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -385,8 +436,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 5: Current Skills */}
-            {currentStep === 5 && (
+            {/* Step 6: Current Skills */}
+            {currentStep === 6 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -428,8 +479,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 6: Experience Level */}
-            {currentStep === 6 && (
+            {/* Step 7: Experience Level */}
+            {currentStep === 7 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -460,8 +511,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 7: Timeline & Location */}
-            {currentStep === 7 && (
+            {/* Step 8: Timeline & Location */}
+            {currentStep === 8 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -505,8 +556,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 8: Target Roles */}
-            {currentStep === 8 && (
+            {/* Step 9: Target Roles */}
+            {currentStep === 9 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">

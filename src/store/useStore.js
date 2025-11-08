@@ -1,12 +1,18 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { USER_TYPES } from '../config/userTypes'
 
 const useStore = create(
   persist(
     (set, get) => ({
-      // Student Profile
+      // User Profile (Student or Professional)
       profile: null,
       setProfile: (profile) => set({ profile }),
+
+      // Update user type
+      setUserType: (userType) => set(state => ({
+        profile: state.profile ? { ...state.profile, userType } : null
+      })),
 
       // Roadmap
       roadmap: null,
@@ -158,7 +164,7 @@ const useStore = create(
     }),
     {
       name: 'launchpad-storage',
-      version: 2, // Incremented for career matching features
+      version: 3, // Incremented for user type support (students + professionals)
     }
   )
 )
