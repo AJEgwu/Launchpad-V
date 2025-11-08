@@ -108,14 +108,14 @@ const RoadmapView = () => {
   // Empty state
   if (!roadmap) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-background-lighter via-white to-background-pale">
         <div className="max-w-4xl mx-auto px-8 py-16">
           <div className="text-center">
             <div className="text-6xl mb-6">🗺️</div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-neutral-darkest mb-4">
               No Roadmap Yet
             </h2>
-            <p className="text-gray-600 mb-8 text-lg">
+            <p className="text-neutral-steel mb-8 text-lg">
               Complete onboarding to generate your personalized career roadmap.
             </p>
             <Button
@@ -134,7 +134,7 @@ const RoadmapView = () => {
   const nextSteps = getNextSteps(roadmap)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-background-lighter via-white to-background-pale">
       {/* Header */}
       <RoadmapHeader
         overallProgress={overallProgress}
@@ -152,8 +152,8 @@ const RoadmapView = () => {
 
         {/* Next Steps Card */}
         {nextSteps.length > 0 && (
-          <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/20">
-            <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Card className="bg-background-primary border-2 border-primary/20">
+            <h3 className="text-xl font-bold text-neutral-darkest mb-4 flex items-center gap-2">
               <span>🎯</span>
               Recommended Next Steps
             </h3>
@@ -162,19 +162,19 @@ const RoadmapView = () => {
                 <button
                   key={index}
                   onClick={() => handleMilestoneSelect(step.phaseId, step.milestone.id)}
-                  className="w-full flex items-center gap-3 p-4 bg-white rounded-xl hover:shadow-md transition-all group"
+                  className="w-full flex items-center gap-3 p-4 bg-white rounded-xl hover:shadow-card transition-all group"
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                    step.type === 'continue' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-700'
+                    step.type === 'continue' ? 'bg-primary text-white shadow-card' : 'bg-background-secondary text-neutral-steel'
                   }`}>
                     {index + 1}
                   </div>
                   <div className="flex-1 text-left">
-                    <div className="font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                    <div className="font-semibold text-neutral-darkest group-hover:text-primary transition-colors">
                       {step.type === 'continue' ? 'Continue: ' : 'Start: '}
                       {step.milestone.name}
                     </div>
-                    <div className="text-sm text-gray-600">{step.phase}</div>
+                    <div className="text-sm text-neutral-steel">{step.phase}</div>
                   </div>
                   <Badge variant={step.type === 'continue' ? 'primary' : 'default'} size="sm">
                     {step.milestone.status === 'in_progress' ? 'In Progress' : 'Not Started'}
@@ -186,12 +186,12 @@ const RoadmapView = () => {
         )}
 
         {/* Roadmap Timeline */}
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-6">
+        <div className="bg-white rounded-2xl shadow-card border-2 border-background-primary p-6">
           <div className="mb-4">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-neutral-darkest mb-2">
               Your Journey
             </h2>
-            <p className="text-gray-600">
+            <p className="text-neutral-steel">
               {roadmap.phases.length} phases • {roadmap.phases.reduce((acc, p) => acc + p.milestones.length, 0)} milestones
             </p>
           </div>
@@ -207,13 +207,13 @@ const RoadmapView = () => {
 
         {/* Completion Banner */}
         {overallProgress === 100 && (
-          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300">
+          <Card className="bg-background-primary border-2 border-status-success/30">
             <div className="text-center py-6">
               <div className="text-6xl mb-4">🎉</div>
-              <h3 className="text-2xl font-bold text-green-900 mb-2">
+              <h3 className="text-2xl font-bold text-neutral-darkest mb-2">
                 Congratulations! You've Completed Your Roadmap!
               </h3>
-              <p className="text-green-800 mb-6">
+              <p className="text-neutral-steel mb-6">
                 You've achieved all milestones in your career roadmap. Ready for the next challenge?
               </p>
               <div className="flex items-center justify-center gap-4">

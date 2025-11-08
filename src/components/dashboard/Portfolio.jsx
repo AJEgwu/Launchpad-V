@@ -45,10 +45,10 @@ const Portfolio = () => {
       <div className="p-8">
         <div className="max-w-4xl mx-auto text-center">
           <div className="text-6xl mb-4">🏆</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-neutral-darkest mb-2">
             Portfolio Not Available
           </h2>
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Complete your onboarding to generate your portfolio.
           </p>
         </div>
@@ -140,10 +140,10 @@ const Portfolio = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
               Portfolio 🏆
             </h1>
-            <p className="text-gray-600">
+            <p className="text-neutral-steel">
               Your shareable career profile showcasing skills, progress, and readiness
             </p>
           </div>
@@ -153,16 +153,16 @@ const Portfolio = () => {
         </div>
 
         {/* Profile Card */}
-        <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/20">
+        <Card className="bg-background-primary border-2 border-primary/20">
           <div className="flex items-start gap-6">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary text-white flex items-center justify-center text-4xl font-bold flex-shrink-0">
+            <div className="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-4xl font-bold flex-shrink-0 shadow-card">
               {profile.name[0].toUpperCase()}
             </div>
             <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-3xl font-bold text-neutral-darkest mb-2">
                 {profile.name}
               </h2>
-              <p className="text-lg text-gray-700 mb-3">
+              <p className="text-lg text-neutral-steel mb-3">
                 {profile.major} • {profile.experienceLevel.charAt(0).toUpperCase() + profile.experienceLevel.slice(1)} Level
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
@@ -181,7 +181,7 @@ const Portfolio = () => {
                       href={portfolio.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1 bg-gray-900 text-white rounded-lg text-sm hover:bg-gray-800 transition-colors"
+                      className="flex items-center gap-2 px-3 py-1 bg-neutral-darkest text-white rounded-xl text-sm hover:bg-neutral-darker transition-colors shadow-card"
                     >
                       GitHub →
                     </a>
@@ -191,7 +191,7 @@ const Portfolio = () => {
                       href={portfolio.linkedinUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+                      className="flex items-center gap-2 px-3 py-1 bg-primary text-white rounded-xl text-sm hover:bg-primary-dark transition-colors shadow-card"
                     >
                       LinkedIn →
                     </a>
@@ -201,7 +201,7 @@ const Portfolio = () => {
                       href={portfolio.resumeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors"
+                      className="flex items-center gap-2 px-3 py-1 bg-status-success text-white rounded-xl text-sm hover:bg-primary-light transition-colors shadow-card"
                     >
                       Resume →
                     </a>
@@ -211,7 +211,7 @@ const Portfolio = () => {
                       href={portfolio.portfolioUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition-colors"
+                      className="flex items-center gap-2 px-3 py-1 bg-secondary text-white rounded-xl text-sm hover:bg-secondary-dark transition-colors shadow-card"
                     >
                       Portfolio →
                     </a>
@@ -224,35 +224,35 @@ const Portfolio = () => {
 
         {/* Readiness Scores */}
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Career Readiness</h3>
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">Career Readiness</h3>
           <div className="grid md:grid-cols-2 gap-4">
             {readinessScores.map(({ role, score }) => (
               <Card key={role} className="bg-white">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-bold text-gray-900">
+                  <h4 className="font-bold text-neutral-darkest">
                     {skillsData[role]?.role || role}
                   </h4>
                   <span className={`text-2xl font-bold ${
-                    score >= 80 ? 'text-green-600' :
-                    score >= 60 ? 'text-yellow-600' :
-                    score >= 40 ? 'text-orange-600' :
-                    'text-red-600'
+                    score >= 80 ? 'text-status-success' :
+                    score >= 60 ? 'text-accent-yellow' :
+                    score >= 40 ? 'text-status-warning' :
+                    'text-status-error'
                   }`}>
                     {score}%
                   </span>
                 </div>
-                <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-full h-3 bg-background-primary rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full ${
-                      score >= 80 ? 'bg-green-500' :
-                      score >= 60 ? 'bg-yellow-500' :
-                      score >= 40 ? 'bg-orange-500' :
-                      'bg-red-500'
+                      score >= 80 ? 'bg-status-success' :
+                      score >= 60 ? 'bg-accent-yellow' :
+                      score >= 40 ? 'bg-status-warning' :
+                      'bg-status-error'
                     }`}
                     style={{ width: `${score}%` }}
                   />
                 </div>
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-neutral-steel mt-2">
                   {score >= 80 ? 'Ready to apply!' :
                    score >= 60 ? 'Making good progress' :
                    score >= 40 ? 'Keep building skills' :
@@ -265,7 +265,7 @@ const Portfolio = () => {
 
         {/* Skills */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">
             Skills ({allSkills.length})
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -285,7 +285,7 @@ const Portfolio = () => {
         {/* Custom Projects */}
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-xl font-bold text-neutral-darkest">
               Projects ({customProjects.length + completedMilestones.filter(m => m.projects?.length > 0).length})
             </h3>
             <Button onClick={() => setShowProjectModal(true)} size="sm">
@@ -298,18 +298,18 @@ const Portfolio = () => {
             {customProjects.map((project, idx) => (
               <div
                 key={idx}
-                className="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border-2 border-primary/20"
+                className="p-4 bg-background-primary rounded-xl border-2 border-primary/20 shadow-card"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <h4 className="font-bold text-gray-900">{project.title}</h4>
+                  <h4 className="font-bold text-neutral-darkest">{project.title}</h4>
                   <button
                     onClick={() => removeCustomProject(idx)}
-                    className="text-red-500 hover:text-red-700 text-sm"
+                    className="text-status-error hover:text-status-danger text-sm"
                   >
                     Remove
                   </button>
                 </div>
-                <p className="text-sm text-gray-600 mb-3">{project.description}</p>
+                <p className="text-sm text-neutral-steel mb-3">{project.description}</p>
                 {project.technologies && project.technologies.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-3">
                     {project.technologies.map((tech, i) => (
@@ -336,12 +336,12 @@ const Portfolio = () => {
             {completedMilestones
               .filter(m => m.projects && m.projects.length > 0)
               .map((milestone, idx) => (
-                <div key={idx} className="p-4 bg-green-50 rounded-lg border border-green-200">
-                  <h4 className="font-bold text-gray-900 mb-2">{milestone.name}</h4>
-                  <ul className="text-sm text-gray-700 space-y-1">
+                <div key={idx} className="p-4 bg-background-primary rounded-xl border-2 border-status-success/30">
+                  <h4 className="font-bold text-neutral-darkest mb-2">{milestone.name}</h4>
+                  <ul className="text-sm text-neutral-steel space-y-1">
                     {milestone.projects.map((project, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-green-600">✓</span>
+                        <span className="text-status-success">✓</span>
                         <span>{project}</span>
                       </li>
                     ))}
@@ -350,7 +350,7 @@ const Portfolio = () => {
               ))}
 
             {customProjects.length === 0 && completedMilestones.filter(m => m.projects?.length > 0).length === 0 && (
-              <p className="text-gray-600 text-center py-4">
+              <p className="text-neutral-steel text-center py-4">
                 No projects yet. Add your custom projects or complete milestones to build your portfolio!
               </p>
             )}
@@ -359,11 +359,11 @@ const Portfolio = () => {
 
         {/* Completed Milestones */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">
             Completed Milestones ({completedMilestones.length})
           </h3>
           {completedMilestones.length === 0 ? (
-            <p className="text-gray-600">
+            <p className="text-neutral-steel">
               No milestones completed yet. Start working on your roadmap!
             </p>
           ) : (
@@ -371,14 +371,14 @@ const Portfolio = () => {
               {completedMilestones.map((milestone, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200"
+                  className="flex items-start gap-3 p-4 bg-background-primary rounded-xl border-2 border-status-success/30"
                 >
-                  <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-status-success text-white flex items-center justify-center flex-shrink-0 shadow-card">
                     ✓
                   </div>
                   <div className="flex-1">
-                    <div className="font-bold text-gray-900">{milestone.name}</div>
-                    <div className="text-sm text-gray-600">{milestone.description}</div>
+                    <div className="font-bold text-neutral-darkest">{milestone.name}</div>
+                    <div className="text-sm text-neutral-steel">{milestone.description}</div>
                     {milestone.skills && milestone.skills.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {milestone.skills.map(skill => (
@@ -398,38 +398,38 @@ const Portfolio = () => {
         {/* Interview Performance */}
         {interviewSessions.length > 0 && (
           <Card>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
+            <h3 className="text-xl font-bold text-neutral-darkest mb-4">
               Interview Practice
             </h3>
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+              <div className="text-center p-4 bg-background-primary rounded-xl border-2 border-primary/20">
+                <div className="text-3xl font-bold text-neutral-darkest mb-1">
                   {interviewSessions.length}
                 </div>
-                <div className="text-sm text-gray-600">Sessions Completed</div>
+                <div className="text-sm text-neutral-steel">Sessions Completed</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
+              <div className="text-center p-4 bg-background-primary rounded-xl border-2 border-primary/20">
                 <div className={`text-3xl font-bold mb-1 ${
-                  avgInterviewScore >= 80 ? 'text-green-600' :
-                  avgInterviewScore >= 60 ? 'text-yellow-600' :
-                  'text-orange-600'
+                  avgInterviewScore >= 80 ? 'text-status-success' :
+                  avgInterviewScore >= 60 ? 'text-accent-yellow' :
+                  'text-status-warning'
                 }`}>
                   {avgInterviewScore}%
                 </div>
-                <div className="text-sm text-gray-600">Average Score</div>
+                <div className="text-sm text-neutral-steel">Average Score</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+              <div className="text-center p-4 bg-background-primary rounded-xl border-2 border-primary/20">
+                <div className="text-3xl font-bold text-neutral-darkest mb-1">
                   {interviewSessions.reduce((sum, s) => sum + s.results.length, 0)}
                 </div>
-                <div className="text-sm text-gray-600">Questions Answered</div>
+                <div className="text-sm text-neutral-steel">Questions Answered</div>
               </div>
             </div>
           </Card>
         )}
 
         {/* Share Card */}
-        <Card className="bg-gradient-to-r from-primary to-secondary text-white">
+        <Card className="bg-primary text-white border-2 border-primary shadow-card-hover">
           <div className="text-center py-6">
             <h3 className="text-2xl font-bold mb-2">Share Your Portfolio</h3>
             <p className="mb-6 opacity-90">
@@ -437,7 +437,7 @@ const Portfolio = () => {
             </p>
             <button
               onClick={handleGenerateShareLink}
-              className="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+              className="bg-white text-primary px-8 py-3 rounded-xl font-semibold hover:bg-background-lighter transition-colors shadow-card"
             >
               Generate Share Link
             </button>
@@ -470,7 +470,7 @@ const Portfolio = () => {
             required
           />
           <div>
-            <label className="block font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-neutral-darkest mb-2">
               Description
             </label>
             <textarea
@@ -478,7 +478,7 @@ const Portfolio = () => {
               onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
               placeholder="Brief description of your project..."
               rows={4}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-3 rounded-xl border-2 border-background-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-neutral-darkest"
             />
           </div>
           <Input
@@ -549,17 +549,17 @@ const Portfolio = () => {
         title="Share Your Portfolio"
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Share this link with recruiters, mentors, or on your resume to showcase your progress:
           </p>
 
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <div className="bg-background-primary border-2 border-primary/20 rounded-xl p-4">
             <div className="flex items-center gap-2">
               <input
                 type="text"
                 value={shareLink}
                 readOnly
-                className="flex-1 bg-transparent text-sm text-gray-700 outline-none"
+                className="flex-1 bg-transparent text-sm text-neutral-darkest outline-none"
               />
               <Button
                 onClick={handleCopyLink}
@@ -571,8 +571,8 @@ const Portfolio = () => {
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
+          <div className="bg-background-primary border-2 border-primary/30 rounded-xl p-4">
+            <p className="text-sm text-neutral-darkest">
               <strong>💡 Tip:</strong> This link contains a snapshot of your portfolio.
               Update your progress and regenerate to get the latest version.
             </p>

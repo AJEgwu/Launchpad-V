@@ -15,11 +15,11 @@ const VideoPlayer = ({ videoData, roleName, onClose }) => {
   if (!videoData) {
     return (
       <Card className="text-center p-8">
-        <FiAlertCircle className="mx-auto text-5xl text-gray-300 mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <FiAlertCircle className="mx-auto text-5xl text-neutral-slate mb-4" />
+        <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
           No video available
         </h3>
-        <p className="text-gray-600">
+        <p className="text-neutral-steel">
           The video hasn't been generated yet.
         </p>
       </Card>
@@ -32,10 +32,10 @@ const VideoPlayer = ({ videoData, roleName, onClose }) => {
     return (
       <Card className="text-center p-8">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
           Generating your video...
         </h3>
-        <p className="text-gray-600">
+        <p className="text-neutral-steel">
           This may take a few moments. We're creating a personalized explainer for {roleName}.
         </p>
       </Card>
@@ -46,10 +46,10 @@ const VideoPlayer = ({ videoData, roleName, onClose }) => {
     return (
       <Card className="text-center p-8 border-2 border-red-200">
         <FiAlertCircle className="mx-auto text-5xl text-red-500 mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
           Video generation failed
         </h3>
-        <p className="text-gray-600 mb-4">
+        <p className="text-neutral-steel mb-4">
           We encountered an error while generating the video. Please try again later.
         </p>
         {onClose && (
@@ -65,21 +65,21 @@ const VideoPlayer = ({ videoData, roleName, onClose }) => {
     <div className="space-y-4">
       <Card className="p-0 overflow-hidden">
         {/* Video Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-background-primary">
           <div>
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-neutral-darkest">
               {roleName} - Role Explainer
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-neutral-steel">
               AI-generated career overview
             </p>
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-background-lighter rounded-xl transition-colors"
             >
-              <FiX className="text-xl text-gray-600" />
+              <FiX className="text-xl text-neutral-steel" />
             </button>
           )}
         </div>
@@ -138,8 +138,8 @@ const VideoPlayer = ({ videoData, roleName, onClose }) => {
 
       {/* Additional Info */}
       <Card className="p-4">
-        <h4 className="font-semibold text-gray-900 mb-2">About this video</h4>
-        <p className="text-sm text-gray-600">
+        <h4 className="font-semibold text-neutral-darkest mb-2">About this video</h4>
+        <p className="text-sm text-neutral-steel">
           This AI-generated video provides an overview of the {roleName} role, including typical responsibilities, required skills, and career trajectory. It's personalized based on your profile.
         </p>
       </Card>

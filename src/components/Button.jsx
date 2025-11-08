@@ -8,13 +8,13 @@ const Button = ({
   type = 'button',
   fullWidth = false
 }) => {
-  const baseStyles = 'font-semibold rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'
+  const baseStyles = 'font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'
 
   const variants = {
-    primary: 'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:scale-105 focus:ring-primary/50 shadow-md',
-    secondary: 'bg-gradient-to-r from-secondary to-primary text-white hover:shadow-lg hover:scale-105 focus:ring-secondary/50 shadow-md',
-    outline: 'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white hover:shadow-lg',
-    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100'
+    primary: 'bg-primary text-white hover:bg-primary-dark hover:shadow-card-hover focus:ring-primary/50 shadow-card',
+    secondary: 'bg-accent-yellow text-neutral-darkest hover:bg-accent-orange hover:shadow-card-hover focus:ring-accent-yellow/50 shadow-card',
+    outline: 'bg-transparent border-2 border-primary text-primary hover:bg-background-primary hover:border-primary-dark',
+    ghost: 'bg-transparent text-neutral-steel hover:bg-background-primary'
   }
 
   const sizes = {

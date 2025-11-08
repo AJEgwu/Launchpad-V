@@ -5,17 +5,17 @@ const ProgressBar = ({ current, total, showLabel = true, className = '' }) => {
     <div className={`w-full ${className}`}>
       {showLabel && (
         <div className="flex justify-between items-center mb-3">
-          <span className="text-sm font-semibold text-gray-700">
+          <span className="text-sm font-semibold text-neutral-steel">
             Step {current} of {total}
           </span>
-          <span className="text-sm font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <span className="text-sm font-bold text-primary">
             {percentage}%
           </span>
         </div>
       )}
-      <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+      <div className="w-full h-2 bg-background-primary rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-primary via-secondary to-primary transition-all duration-500 ease-out rounded-full shadow-lg"
+          className="h-full bg-primary transition-all duration-500 ease-out rounded-full"
           style={{ width: `${percentage}%` }}
         />
       </div>

@@ -61,9 +61,9 @@ const MilestoneNode = ({
       case 'completed':
         return {
           icon: FiCheckCircle,
-          color: 'bg-green-500 border-green-600 text-white',
-          ringColor: 'ring-green-200',
-          dotColor: 'bg-green-500',
+          color: 'bg-status-success border-status-success text-white',
+          ringColor: 'ring-status-success/30',
+          dotColor: 'bg-status-success',
           label: 'Completed'
         }
       case 'in_progress':
@@ -78,9 +78,9 @@ const MilestoneNode = ({
       default:
         return {
           icon: FiCircle,
-          color: 'bg-white border-gray-300 text-gray-600',
-          ringColor: 'ring-gray-200',
-          dotColor: 'bg-gray-300',
+          color: 'bg-white border-background-primary text-neutral-steel',
+          ringColor: 'ring-background-primary',
+          dotColor: 'bg-background-secondary',
           label: 'Not Started'
         }
     }
@@ -125,9 +125,9 @@ const MilestoneNode = ({
 
         {/* Tooltip on hover */}
         {isHovered && (
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap z-20 shadow-lg">
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-neutral-darkest text-white text-xs rounded-lg whitespace-nowrap z-20 shadow-card-hover">
             {milestone.name}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900" />
+            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-neutral-darkest" />
           </div>
         )}
       </button>
@@ -148,7 +148,7 @@ const MilestoneNode = ({
       <div className={`
         flex items-center gap-3 p-3 rounded-xl border-2 transition-all duration-200
         ${statusConfig.color}
-        ${isHovered ? 'shadow-lg scale-105' : 'shadow-sm'}
+        ${isHovered ? 'shadow-card-hover scale-105' : 'shadow-card'}
       `}>
         {/* Status Icon */}
         <div className="flex-shrink-0">
@@ -181,16 +181,16 @@ const MilestoneNode = ({
 
       {/* Hover Details Card */}
       {isHovered && milestone.description && (
-        <div className="absolute left-0 top-full mt-2 p-4 bg-white rounded-xl shadow-2xl border-2 border-gray-200 z-30 w-80 max-w-sm">
+        <div className="absolute left-0 top-full mt-2 p-4 bg-white rounded-xl shadow-card-hover border-2 border-background-primary z-30 w-80 max-w-sm">
           <div className="space-y-3">
             <div>
-              <div className="font-bold text-gray-900 mb-1">{milestone.name}</div>
-              <div className="text-sm text-gray-600">{milestone.description}</div>
+              <div className="font-bold text-neutral-darkest mb-1">{milestone.name}</div>
+              <div className="text-sm text-neutral-steel">{milestone.description}</div>
             </div>
 
             {milestone.skills && milestone.skills.length > 0 && (
               <div>
-                <div className="text-xs font-semibold text-gray-700 mb-1">Skills:</div>
+                <div className="text-xs font-semibold text-neutral-steel mb-1">Skills:</div>
                 <div className="flex flex-wrap gap-1">
                   {milestone.skills.slice(0, 5).map(skill => (
                     <Badge key={skill} variant="default" size="sm">
@@ -198,13 +198,13 @@ const MilestoneNode = ({
                     </Badge>
                   ))}
                   {milestone.skills.length > 5 && (
-                    <span className="text-xs text-gray-500">+{milestone.skills.length - 5} more</span>
+                    <span className="text-xs text-neutral-slate">+{milestone.skills.length - 5} more</span>
                   )}
                 </div>
               </div>
             )}
 
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-neutral-slate">
               Click to view full details
             </div>
           </div>

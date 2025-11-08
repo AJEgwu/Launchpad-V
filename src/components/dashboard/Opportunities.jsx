@@ -48,10 +48,10 @@ const Opportunities = () => {
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
             Opportunities 🎯
           </h1>
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Discover internships and roles matched to your profile with transparent fit scores
           </p>
         </div>
@@ -63,13 +63,13 @@ const Opportunities = () => {
         <Card>
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[200px]">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-neutral-darkest mb-2">
                 Filter by Role
               </label>
               <select
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 rounded-xl border-2 border-background-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-neutral-darkest"
               >
                 <option value="all">All Roles</option>
                 {roleTypes.map(role => (
@@ -79,13 +79,13 @@ const Opportunities = () => {
             </div>
 
             <div className="flex-1 min-w-[200px]">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-neutral-darkest mb-2">
                 Filter by Sponsor
               </label>
               <select
                 value={selectedSponsor}
                 onChange={(e) => setSelectedSponsor(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 rounded-xl border-2 border-background-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-neutral-darkest"
               >
                 <option value="all">All Sponsors</option>
                 {sponsors.map(sponsor => (
@@ -95,24 +95,24 @@ const Opportunities = () => {
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-600">
+          <div className="mt-4 text-sm text-neutral-steel">
             Showing {filteredOpportunities.length} opportunities
           </div>
         </Card>
 
         {/* Sponsor Spotlight */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Partner Companies</h3>
+          <h3 className="text-lg font-semibold text-neutral-darkest mb-4">Partner Companies</h3>
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
             {sponsors.map(sponsor => (
               <button
                 key={sponsor.id}
                 onClick={() => setSelectedSponsor(selectedSponsor === sponsor.name ? 'all' : sponsor.name)}
                 className={`
-                  p-4 rounded-xl border-2 transition-all text-center
+                  p-4 rounded-xl border-2 transition-all text-center shadow-card hover:shadow-card-hover
                   ${selectedSponsor === sponsor.name
-                    ? 'border-primary bg-primary/5'
-                    : 'border-gray-200 hover:border-primary/50 bg-white'
+                    ? 'border-primary bg-background-primary'
+                    : 'border-background-primary hover:border-primary/50 bg-white'
                   }
                 `}
               >
@@ -123,7 +123,7 @@ const Opportunities = () => {
                     className="max-h-full max-w-full object-contain"
                   />
                 </div>
-                <div className="text-xs font-semibold text-gray-700">
+                <div className="text-xs font-semibold text-neutral-darkest">
                   {sponsor.name}
                 </div>
               </button>
@@ -141,10 +141,10 @@ const Opportunities = () => {
             <Card>
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-neutral-darkest mb-2">
                   No opportunities found
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-neutral-steel">
                   Try adjusting your filters
                 </p>
               </div>
@@ -160,29 +160,31 @@ const OpportunityCard = ({ opportunity }) => {
   const [expanded, setExpanded] = useState(false)
   const { fitResult } = opportunity
 
-  const fitColor = fitResult.score >= 80 ? 'text-green-600' :
-                   fitResult.score >= 60 ? 'text-yellow-600' :
-                   'text-orange-600'
+  const fitColor = fitResult.score >= 80 ? 'text-status-success' :
+                   fitResult.score >= 60 ? 'text-accent-yellow' :
+                   fitResult.score >= 40 ? 'text-status-warning' :
+                   'text-status-error'
 
-  const fitBgColor = fitResult.score >= 80 ? 'bg-green-50 border-green-200' :
-                     fitResult.score >= 60 ? 'bg-yellow-50 border-yellow-200' :
-                     'bg-orange-50 border-orange-200'
+  const fitBgColor = fitResult.score >= 80 ? 'bg-background-primary border-status-success/30' :
+                     fitResult.score >= 60 ? 'bg-background-cream border-accent-yellow/30' :
+                     fitResult.score >= 40 ? 'bg-background-cream border-status-warning/30' :
+                     'bg-background-cream border-status-error/30'
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-200">
+    <Card className="hover:shadow-card-hover transition-all duration-200">
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-xl font-bold text-neutral-darkest">
                 {opportunity.title}
               </h3>
               <Badge variant="sponsor" size="sm">
                 {opportunity.sponsor_tag}
               </Badge>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-4 text-sm text-neutral-steel">
               <span className="flex items-center gap-1">
                 🏢 {opportunity.company}
               </span>
@@ -196,25 +198,25 @@ const OpportunityCard = ({ opportunity }) => {
           </div>
 
           {/* Fit Score */}
-          <div className={`flex-shrink-0 text-center px-6 py-3 rounded-xl border-2 ${fitBgColor}`}>
+          <div className={`flex-shrink-0 text-center px-6 py-3 rounded-xl border-2 shadow-card ${fitBgColor}`}>
             <div className={`text-3xl font-bold ${fitColor}`}>
               {fitResult.score}%
             </div>
-            <div className="text-xs font-semibold text-gray-600">
+            <div className="text-xs font-semibold text-neutral-steel">
               Fit Score
             </div>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-gray-700">
+        <p className="text-neutral-steel">
           {opportunity.description}
         </p>
 
         {/* Skills */}
         <div className="space-y-3">
           <div>
-            <div className="text-xs font-semibold text-gray-700 mb-2">Required Skills:</div>
+            <div className="text-xs font-semibold text-neutral-darkest mb-2">Required Skills:</div>
             <div className="flex flex-wrap gap-2">
               {opportunity.required_skills.map(skill => {
                 const isMatched = fitResult.matchedSkills.map(s => s.toLowerCase()).includes(skill.toLowerCase())
@@ -234,7 +236,7 @@ const OpportunityCard = ({ opportunity }) => {
 
           {expanded && opportunity.preferred_skills.length > 0 && (
             <div>
-              <div className="text-xs font-semibold text-gray-700 mb-2">Preferred Skills:</div>
+              <div className="text-xs font-semibold text-neutral-darkest mb-2">Preferred Skills:</div>
               <div className="flex flex-wrap gap-2">
                 {opportunity.preferred_skills.map(skill => {
                   const isMatched = fitResult.matchedSkills.map(s => s.toLowerCase()).includes(skill.toLowerCase())
@@ -256,8 +258,8 @@ const OpportunityCard = ({ opportunity }) => {
 
         {/* Missing Skills */}
         {fitResult.missingSkills.length > 0 && expanded && (
-          <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-            <div className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+          <div className="p-4 bg-background-cream rounded-xl border-2 border-accent-yellow/30">
+            <div className="font-semibold text-neutral-darkest mb-2 flex items-center gap-2">
               <span>⚠️</span>
               Skills to Add ({fitResult.missingSkills.length})
             </div>
@@ -268,7 +270,7 @@ const OpportunityCard = ({ opportunity }) => {
                 </Badge>
               ))}
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-neutral-steel mt-2">
               Consider adding these skills to your roadmap to improve your fit score.
             </p>
           </div>
@@ -276,16 +278,16 @@ const OpportunityCard = ({ opportunity }) => {
 
         {/* Fit Breakdown */}
         {expanded && (
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="font-semibold text-gray-900 mb-3">Fit Score Breakdown:</div>
+          <div className="p-4 bg-background-primary rounded-xl border-2 border-primary/20">
+            <div className="font-semibold text-neutral-darkest mb-3">Fit Score Breakdown:</div>
             <div className="space-y-2">
               {fitResult.factors.map((factor, idx) => (
                 <div key={idx} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700">
+                  <span className="text-neutral-steel">
                     {factor.name}
-                    {factor.details && <span className="text-gray-500 ml-2">({factor.details})</span>}
+                    {factor.details && <span className="text-neutral-slate ml-2">({factor.details})</span>}
                   </span>
-                  <span className="font-semibold text-gray-900">+{factor.points}</span>
+                  <span className="font-semibold text-primary">+{factor.points}</span>
                 </div>
               ))}
             </div>

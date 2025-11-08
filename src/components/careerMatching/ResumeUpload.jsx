@@ -110,12 +110,12 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
     return (
       <div className="space-y-4">
         {resumeData ? (
-          <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-xl">
             <div className="flex items-center gap-3">
               <FiCheck className="text-green-600 text-xl" />
               <div>
-                <p className="font-medium text-gray-900">{resumeData.fileName}</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-neutral-darkest">{resumeData.fileName}</p>
+                <p className="text-sm text-neutral-steel">
                   {resumeData.parsed.normalizedSkills?.length || 0} skills extracted
                 </p>
               </div>
@@ -127,7 +127,7 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
         ) : (
           <div className="space-y-2">
             <label className="block">
-              <div className="flex items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
+              <div className="flex items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
                 <input
                   type="file"
                   accept=".pdf,.txt"
@@ -136,16 +136,16 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
                   disabled={uploading}
                 />
                 <div className="text-center">
-                  <FiUpload className="mx-auto text-3xl text-gray-400 mb-2" />
-                  <p className="text-sm font-medium text-gray-700">
+                  <FiUpload className="mx-auto text-3xl text-neutral-slate mb-2" />
+                  <p className="text-sm font-medium text-neutral-steel">
                     {uploading ? 'Uploading...' : 'Upload Resume'}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">PDF or TXT</p>
+                  <p className="text-xs text-neutral-slate mt-1">PDF or TXT</p>
                 </div>
               </div>
             </label>
             {error && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm">
                 <FiAlertCircle />
                 {error}
               </div>
@@ -161,10 +161,10 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
     <Card>
       <div className="space-y-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-2">
             Upload Your Resume
           </h3>
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Upload your resume to automatically extract skills and experience.
             This helps us provide better role matches.
           </p>
@@ -185,10 +185,10 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
                 <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
                   <FiUpload className="text-3xl text-primary" />
                 </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                <h4 className="text-lg font-semibold text-neutral-darkest mb-2">
                   {uploading ? 'Processing...' : 'Choose a file or drag it here'}
                 </h4>
-                <p className="text-gray-600 mb-4">
+                <p className="text-neutral-steel mb-4">
                   PDF or TXT format, up to 5MB
                 </p>
                 <Button disabled={uploading}>
@@ -201,7 +201,7 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
 
         {/* Parsing Status */}
         {parsing && (
-          <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
             <p className="text-blue-900 font-medium">Analyzing your resume...</p>
           </div>
@@ -209,7 +209,7 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
 
         {/* Error Message */}
         {error && (
-          <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
             <FiAlertCircle className="text-red-600 text-xl flex-shrink-0" />
             <div>
               <p className="font-medium text-red-900">Upload Error</p>
@@ -221,12 +221,12 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
         {/* Resume Preview */}
         {resumeData && !parsing && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-xl">
               <div className="flex items-center gap-3">
                 <FiFile className="text-green-600 text-2xl" />
                 <div>
-                  <p className="font-semibold text-gray-900">{resumeData.fileName}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="font-semibold text-neutral-darkest">{resumeData.fileName}</p>
+                  <p className="text-sm text-neutral-steel">
                     Uploaded {new Date(resumeData.uploadedAt).toLocaleDateString()}
                   </p>
                 </div>
@@ -238,29 +238,29 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
 
             {/* Extracted Data Summary */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-background-primary rounded-xl">
                 <p className="text-2xl font-bold text-primary">
                   {resumeData.parsed.normalizedSkills?.length || 0}
                 </p>
-                <p className="text-sm text-gray-600">Skills Found</p>
+                <p className="text-sm text-neutral-steel">Skills Found</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-background-primary rounded-xl">
                 <p className="text-2xl font-bold text-primary">
                   {resumeData.parsed.experiences?.length || 0}
                 </p>
-                <p className="text-sm text-gray-600">Experiences</p>
+                <p className="text-sm text-neutral-steel">Experiences</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-background-primary rounded-xl">
                 <p className="text-2xl font-bold text-primary">
                   {resumeData.parsed.projects?.length || 0}
                 </p>
-                <p className="text-sm text-gray-600">Projects</p>
+                <p className="text-sm text-neutral-steel">Projects</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="p-4 bg-background-primary rounded-xl">
                 <p className="text-2xl font-bold text-primary">
                   {resumeData.parsed.education?.length || 0}
                 </p>
-                <p className="text-sm text-gray-600">Education</p>
+                <p className="text-sm text-neutral-steel">Education</p>
               </div>
             </div>
           </div>
@@ -270,10 +270,10 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
         {previewSkills.length > 0 && (
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">
+              <h4 className="font-semibold text-neutral-darkest mb-2">
                 Extracted Skills ({selectedSkills.size} selected)
               </h4>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-neutral-steel mb-4">
                 Review and deselect any skills that don't apply to you.
               </p>
             </div>
@@ -286,7 +286,7 @@ const ResumeUpload = ({ onParseComplete, showCompact = false }) => {
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
                     selectedSkills.has(skill)
                       ? 'bg-primary text-white'
-                      : 'bg-gray-200 text-gray-600 line-through'
+                      : 'bg-gray-200 text-neutral-steel line-through'
                   }`}
                 >
                   {skill}

@@ -86,11 +86,11 @@ const CareerCopilot = () => {
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <div className="bg-white border-b-2 border-background-primary px-8 py-6 shadow-card">
+        <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
           Career Copilot 💬
         </h1>
-        <p className="text-gray-600">
+        <p className="text-neutral-steel">
           Ask me anything about your career path, skills, or opportunities
         </p>
       </div>
@@ -101,10 +101,10 @@ const CareerCopilot = () => {
           {chatHistory.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">👋</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-neutral-darkest mb-2">
                 Hi {profile?.name}!
               </h3>
-              <p className="text-gray-600 mb-8">
+              <p className="text-neutral-steel mb-8">
                 I'm your AI career advisor. Ask me anything!
               </p>
 
@@ -113,9 +113,9 @@ const CareerCopilot = () => {
                   <button
                     key={index}
                     onClick={() => setInput(question)}
-                    className="p-4 text-left rounded-xl border-2 border-gray-200 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                    className="p-4 text-left rounded-xl border-2 border-background-primary hover:border-primary/50 hover:bg-background-primary transition-all shadow-card hover:shadow-card-hover"
                   >
-                    <span className="text-sm text-gray-700">{question}</span>
+                    <span className="text-sm text-neutral-steel">{question}</span>
                   </button>
                 ))}
               </div>
@@ -127,12 +127,12 @@ const CareerCopilot = () => {
               ))}
               {isLoading && (
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-background-primary flex items-center justify-center flex-shrink-0">
                     <span className="text-xl">🤖</span>
                   </div>
                   <Card className="flex-1 animate-pulse">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-4 bg-background-primary rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-background-primary rounded w-1/2"></div>
                   </Card>
                 </div>
               )}
@@ -143,7 +143,7 @@ const CareerCopilot = () => {
       </div>
 
       {/* Input */}
-      <div className="bg-white border-t border-gray-200 px-8 py-6">
+      <div className="bg-white border-t-2 border-background-primary px-8 py-6 shadow-card">
         <div className="max-w-4xl mx-auto">
           <div className="flex gap-3">
             <input
@@ -153,7 +153,7 @@ const CareerCopilot = () => {
               onKeyPress={handleKeyPress}
               placeholder="Ask me anything..."
               disabled={isLoading}
-              className="flex-1 px-6 py-4 rounded-full border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              className="flex-1 px-6 py-4 rounded-full border-2 border-background-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-neutral-darkest"
             />
             <Button
               onClick={handleSend}
@@ -175,19 +175,19 @@ const MessageBubble = ({ message }) => {
   return (
     <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
       <div className={`
-        w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0
-        ${isUser ? 'bg-secondary/10' : 'bg-primary/10'}
+        w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-card
+        ${isUser ? 'bg-secondary text-white' : 'bg-primary text-white'}
       `}>
         <span className="text-xl">{isUser ? '👤' : '🤖'}</span>
       </div>
 
-      <Card className={`flex-1 max-w-2xl ${isUser ? 'bg-secondary/5 border-secondary/20' : ''}`}>
+      <Card className={`flex-1 max-w-2xl ${isUser ? 'bg-background-primary border-secondary/20' : 'bg-white'}`}>
         <div className="prose prose-sm max-w-none">
-          <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+          <p className="text-neutral-steel whitespace-pre-wrap leading-relaxed">
             {message.content}
           </p>
         </div>
-        <div className="text-xs text-gray-400 mt-2">
+        <div className="text-xs text-neutral-slate mt-2">
           {new Date(message.timestamp).toLocaleTimeString()}
         </div>
       </Card>

@@ -37,7 +37,7 @@ const RoleMatchCard = ({ match, rank }) => {
     'excellent': 'bg-green-50 border-green-200',
     'good': 'bg-blue-50 border-blue-200',
     'fair': 'bg-yellow-50 border-yellow-200',
-    'needs-development': 'bg-gray-50 border-gray-200'
+    'needs-development': 'bg-background-primary border-background-primary'
   }
 
   const handleAskCopilot = () => {
@@ -87,11 +87,11 @@ const RoleMatchCard = ({ match, rank }) => {
                   #{rank}
                 </div>
               )}
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-xl font-bold text-neutral-darkest">
                 {roleProfile.name}
               </h3>
             </div>
-            <p className="text-gray-600">{roleProfile.summary}</p>
+            <p className="text-neutral-steel">{roleProfile.summary}</p>
           </div>
 
           {/* Match Score */}
@@ -99,26 +99,26 @@ const RoleMatchCard = ({ match, rank }) => {
             <div className={`text-3xl font-bold bg-gradient-to-r ${matchLevelColors[match.matchLevel]} bg-clip-text text-transparent`}>
               {match.score}%
             </div>
-            <p className="text-xs text-gray-600 mt-1">Match</p>
+            <p className="text-xs text-neutral-steel mt-1">Match</p>
           </div>
         </div>
 
         {/* Skills Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-3 bg-green-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-1">Matched Skills</p>
+          <div className="p-3 bg-green-50 rounded-xl">
+            <p className="text-sm text-neutral-steel mb-1">Matched Skills</p>
             <p className="text-lg font-bold text-green-700">
               {match.matchedSkills.length}
             </p>
           </div>
-          <div className="p-3 bg-red-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-1">Skills to Learn</p>
+          <div className="p-3 bg-red-50 rounded-xl">
+            <p className="text-sm text-neutral-steel mb-1">Skills to Learn</p>
             <p className="text-lg font-bold text-red-700">
               {match.gapSkills.length}
             </p>
           </div>
-          <div className="p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-1">Bonus Skills</p>
+          <div className="p-3 bg-blue-50 rounded-xl">
+            <p className="text-sm text-neutral-steel mb-1">Bonus Skills</p>
             <p className="text-lg font-bold text-blue-700">
               {match.bonusSkills.length}
             </p>
@@ -126,8 +126,8 @@ const RoleMatchCard = ({ match, rank }) => {
         </div>
 
         {/* Recommendation */}
-        <div className="p-4 bg-gray-50 rounded-lg border-l-4 border-primary">
-          <p className="text-gray-800">{match.recommendation}</p>
+        <div className="p-4 bg-background-primary rounded-xl border-l-4 border-primary">
+          <p className="text-neutral-darker">{match.recommendation}</p>
         </div>
 
         {/* Actions */}
@@ -161,7 +161,7 @@ const RoleMatchCard = ({ match, rank }) => {
 
         {/* Video Player */}
         {showVideo && hasVideo && (
-          <div className="pt-4 border-t border-gray-200">
+          <div className="pt-4 border-t border-background-primary">
             <VideoPlayer
               videoData={videoData}
               roleName={roleProfile.name}
@@ -172,17 +172,17 @@ const RoleMatchCard = ({ match, rank }) => {
 
         {/* Expanded Details */}
         {expanded && (
-          <div className="space-y-4 pt-4 border-t border-gray-200">
+          <div className="space-y-4 pt-4 border-t border-background-primary">
             {/* Description */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">About this Role</h4>
-              <p className="text-gray-600">{roleProfile.description}</p>
+              <h4 className="font-semibold text-neutral-darkest mb-2">About this Role</h4>
+              <p className="text-neutral-steel">{roleProfile.description}</p>
             </div>
 
             {/* Matched Skills */}
             {match.matchedSkills.length > 0 && (
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">✅ Your Matching Skills</h4>
+                <h4 className="font-semibold text-neutral-darkest mb-2">✅ Your Matching Skills</h4>
                 <div className="flex flex-wrap gap-2">
                   {match.matchedSkills.map(skill => (
                     <Badge key={skill} variant="success">{skill}</Badge>
@@ -194,7 +194,7 @@ const RoleMatchCard = ({ match, rank }) => {
             {/* Gap Skills */}
             {match.gapSkills.length > 0 && (
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">📚 Skills to Develop</h4>
+                <h4 className="font-semibold text-neutral-darkest mb-2">📚 Skills to Develop</h4>
                 <div className="flex flex-wrap gap-2">
                   {match.gapSkills.map(skill => (
                     <Badge key={skill} variant="warning">{skill}</Badge>
@@ -205,8 +205,8 @@ const RoleMatchCard = ({ match, rank }) => {
 
             {/* Responsibilities */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Key Responsibilities</h4>
-              <ul className="list-disc list-inside space-y-1 text-gray-600">
+              <h4 className="font-semibold text-neutral-darkest mb-2">Key Responsibilities</h4>
+              <ul className="list-disc list-inside space-y-1 text-neutral-steel">
                 {roleProfile.responsibilities.slice(0, 4).map((resp, idx) => (
                   <li key={idx}>{resp}</li>
                 ))}
@@ -215,8 +215,8 @@ const RoleMatchCard = ({ match, rank }) => {
 
             {/* Career Trajectory */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Career Path</h4>
-              <p className="text-gray-600">{roleProfile.careerTrajectory}</p>
+              <h4 className="font-semibold text-neutral-darkest mb-2">Career Path</h4>
+              <p className="text-neutral-steel">{roleProfile.careerTrajectory}</p>
             </div>
           </div>
         )}

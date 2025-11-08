@@ -5,7 +5,7 @@ const Card = ({
   hover = false,
   onClick
 }) => {
-  const baseStyles = 'bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-200'
+  const baseStyles = 'bg-white rounded-xl shadow-card border border-transparent transition-all duration-200'
 
   const paddings = {
     sm: 'p-4',
@@ -13,7 +13,7 @@ const Card = ({
     lg: 'p-8'
   }
 
-  const hoverStyles = hover ? 'hover:shadow-xl hover:scale-[1.02] hover:border-primary/20 cursor-pointer' : 'hover:shadow-md'
+  const hoverStyles = hover ? 'hover:shadow-card-hover hover:-translate-y-0.5 cursor-pointer' : ''
 
   return (
     <div

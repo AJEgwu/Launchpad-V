@@ -58,16 +58,16 @@ const RoadmapHeader = ({
   }
 
   return (
-    <div className="bg-white border-b-2 border-gray-200 sticky top-0 z-10">
+    <div className="bg-white border-b-2 border-background-primary sticky top-0 z-10 shadow-card">
       <div className="max-w-7xl mx-auto px-8 py-6">
         {/* Top Row: Title and Controls */}
         <div className="flex items-start justify-between gap-6 mb-4">
           {/* Left: Title and Subtitle */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
               Your LaunchPad Roadmap
             </h1>
-            <p className="text-gray-600 text-sm">
+            <p className="text-neutral-steel text-sm">
               {buildSubtitle()}
             </p>
           </div>
@@ -75,14 +75,14 @@ const RoadmapHeader = ({
           {/* Right: Controls */}
           <div className="flex items-center gap-3 flex-shrink-0">
             {/* View Mode Toggle */}
-            <div className="flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
+            <div className="flex items-center gap-1 p-1 bg-background-primary rounded-xl">
               <button
                 onClick={() => onViewModeChange?.('detailed')}
                 className={`
                   px-3 py-2 rounded-md text-sm font-medium transition-all
                   ${viewMode === 'detailed'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-white text-neutral-darkest shadow-card'
+                    : 'text-neutral-steel hover:text-neutral-darkest'
                   }
                 `}
                 title="Detailed view"
@@ -94,8 +94,8 @@ const RoadmapHeader = ({
                 className={`
                   px-3 py-2 rounded-md text-sm font-medium transition-all
                   ${viewMode === 'compact'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-white text-neutral-darkest shadow-card'
+                    : 'text-neutral-steel hover:text-neutral-darkest'
                   }
                 `}
                 title="Compact view"
@@ -159,7 +159,7 @@ const RoadmapHeader = ({
 
           {/* Progress Indicator */}
           <div className="ml-auto flex items-center gap-2">
-            <span className="text-sm text-gray-600">Overall Progress:</span>
+            <span className="text-sm text-neutral-steel">Overall Progress:</span>
             <span className="text-lg font-bold text-primary">{overallProgress}%</span>
           </div>
         </div>

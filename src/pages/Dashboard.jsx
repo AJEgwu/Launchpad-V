@@ -35,20 +35,20 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-background to-white flex">
+    <div className="min-h-screen bg-gradient-to-br from-background-lighter via-white to-background-pale flex">
       {/* Sidebar */}
-      <aside className="w-72 bg-white border-r border-gray-200 flex flex-col shadow-sm">
+      <aside className="w-72 bg-white border-r border-background-primary flex flex-col shadow-card">
         {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-background-primary">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-card">
               <FiZap className="text-white text-xl" />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold text-primary">
                 LaunchPad
               </h1>
-              <p className="text-xs text-gray-500">AI Career OS</p>
+              <p className="text-xs text-neutral-steel">AI Career OS</p>
             </div>
           </div>
         </div>
@@ -56,21 +56,21 @@ const Dashboard = () => {
         {/* Profile Summary */}
         <button
           onClick={() => navigate('/dashboard/portfolio')}
-          className="p-6 border-b border-gray-200 w-full hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all text-left group"
+          className="p-6 border-b border-background-primary w-full hover:bg-background-primary transition-all text-left group"
         >
           <div className="flex items-center gap-3">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl font-bold shadow-lg group-hover:scale-105 transition-transform">
+            <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-xl font-bold shadow-card group-hover:scale-105 transition-transform">
               {profile?.name?.[0]?.toUpperCase() || 'S'}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-gray-900 truncate">
+              <div className="font-semibold text-neutral-darkest truncate">
                 {profile?.name || 'Student'}
               </div>
-              <div className="text-xs text-gray-500 truncate">
+              <div className="text-xs text-neutral-steel truncate">
                 {profile?.major || 'Exploring'}
               </div>
             </div>
-            <FiChevronRight className="text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+            <FiChevronRight className="text-neutral-steel group-hover:text-primary group-hover:translate-x-1 transition-all" />
           </div>
         </button>
 
@@ -87,12 +87,12 @@ const Dashboard = () => {
                   w-full flex items-center gap-3 px-4 py-3 rounded-xl
                   transition-all duration-200 text-left group
                   ${isActive
-                    ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/20'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-primary text-white shadow-card'
+                    : 'text-neutral-steel hover:bg-background-primary'
                   }
                 `}
               >
-                <Icon className={`text-xl ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-primary'}`} />
+                <Icon className={`text-xl ${isActive ? 'text-white' : 'text-neutral-slate group-hover:text-primary'}`} />
                 <span className="font-medium">{item.label}</span>
                 {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white"></div>}
               </button>
@@ -101,19 +101,19 @@ const Dashboard = () => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 space-y-2">
+        <div className="p-4 border-t border-background-primary space-y-2">
           <button
             onClick={() => navigate('/dashboard/settings')}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 transition-all text-left group"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-steel hover:bg-background-primary transition-all text-left group"
           >
-            <FiSettings className="text-xl text-gray-400 group-hover:text-primary transition-colors" />
+            <FiSettings className="text-xl text-neutral-slate group-hover:text-primary transition-colors" />
             <span className="font-medium">Settings</span>
           </button>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all text-left group"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-steel hover:bg-status-error/10 hover:text-status-error transition-all text-left group"
           >
-            <FiLogOut className="text-xl text-gray-400 group-hover:text-red-600 transition-colors" />
+            <FiLogOut className="text-xl text-neutral-slate group-hover:text-status-error transition-colors" />
             <span className="font-medium">Start Over</span>
           </button>
         </div>

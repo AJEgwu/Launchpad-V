@@ -82,7 +82,7 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
       <Card>
         <div className="flex items-center justify-center p-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="ml-3 text-gray-600">Calculating your role matches...</p>
+          <p className="ml-3 text-neutral-steel">Calculating your role matches...</p>
         </div>
       </Card>
     )
@@ -103,8 +103,8 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
             {topMatch.score}%
           </div>
           <div className="flex-1">
-            <p className="text-sm text-gray-600 mb-1">Top Match</p>
-            <p className="font-bold text-gray-900">{roleProfile.name}</p>
+            <p className="text-sm text-neutral-steel mb-1">Top Match</p>
+            <p className="font-bold text-neutral-darkest">{roleProfile.name}</p>
           </div>
           <FiTarget className="text-2xl text-primary" />
         </div>
@@ -119,8 +119,8 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
         <div className="flex items-center gap-3">
           <FiTrendingUp className="text-3xl text-primary" />
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Your Top Role Matches</h2>
-            <p className="text-gray-600">
+            <h2 className="text-2xl font-bold text-neutral-darkest">Your Top Role Matches</h2>
+            <p className="text-neutral-steel">
               Based on your profile, skills, and experience
             </p>
           </div>
@@ -130,16 +130,16 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
       {roleMatches.length === 0 ? (
         <Card>
           <div className="text-center p-8">
-            <FiTarget className="mx-auto text-5xl text-gray-300 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <FiTarget className="mx-auto text-5xl text-neutral-slate mb-4" />
+            <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
               No matches calculated yet
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-neutral-steel mb-4">
               Complete your profile to see personalized role recommendations
             </p>
             <button
               onClick={calculateMatches}
-              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              className="px-6 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
             >
               Calculate Matches
             </button>
@@ -158,7 +158,7 @@ const CareerMatchPanel = ({ limit = 3, showTitle = true, compact = false }) => {
       )}
 
       {roleMatches.length > limit && (
-        <p className="text-center text-gray-600">
+        <p className="text-center text-neutral-steel">
           Showing top {limit} of {roleMatches.length} matches
         </p>
       )}

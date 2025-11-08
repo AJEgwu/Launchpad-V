@@ -29,18 +29,18 @@ const Settings = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-neutral-darkest mb-2">
             Settings ⚙️
           </h1>
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Configure your LaunchPad experience
           </p>
         </div>
 
         {/* User Type Selection */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">User Type</h3>
-          <p className="text-gray-600 mb-6">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">User Type</h3>
+          <p className="text-neutral-steel mb-6">
             Your user type affects roadmap structure, resource recommendations, and opportunity matching.
           </p>
           <div className="space-y-3">
@@ -56,20 +56,20 @@ const Settings = () => {
                   w-full p-4 rounded-xl border-2 transition-all duration-200 text-left
                   ${profile?.userType === type
                     ? 'border-primary bg-primary/5 shadow-md'
-                    : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                    : 'border-background-primary hover:border-primary/50 hover:bg-background-primary'
                   }
                 `}
               >
                 <div className="flex items-start gap-3">
                   <div className="text-2xl">{info.icon}</div>
                   <div className="flex-1">
-                    <div className="font-bold text-gray-900 mb-1 flex items-center gap-2">
+                    <div className="font-bold text-neutral-darkest mb-1 flex items-center gap-2">
                       {info.label}
                       {profile?.userType === type && (
                         <FiCheckCircle className="text-primary" />
                       )}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-neutral-steel">
                       {info.description}
                     </div>
                   </div>
@@ -86,37 +86,37 @@ const Settings = () => {
 
         {/* Profile Info */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Profile Information</h3>
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">Profile Information</h3>
           <div className="space-y-3 text-sm">
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <span className="text-gray-600">Name</span>
-              <span className="font-semibold text-gray-900">{profile?.name}</span>
+            <div className="flex items-center justify-between py-2 border-b border-background-lighter">
+              <span className="text-neutral-steel">Name</span>
+              <span className="font-semibold text-neutral-darkest">{profile?.name}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <span className="text-gray-600">Major</span>
-              <span className="font-semibold text-gray-900">{profile?.major}</span>
+            <div className="flex items-center justify-between py-2 border-b border-background-lighter">
+              <span className="text-neutral-steel">Major</span>
+              <span className="font-semibold text-neutral-darkest">{profile?.major}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <span className="text-gray-600">Experience Level</span>
+            <div className="flex items-center justify-between py-2 border-b border-background-lighter">
+              <span className="text-neutral-steel">Experience Level</span>
               <Badge variant="default">
                 {profile?.experienceLevel?.charAt(0).toUpperCase() + profile?.experienceLevel?.slice(1)}
               </Badge>
             </div>
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <span className="text-gray-600">Graduation Timeline</span>
-              <span className="font-semibold text-gray-900">{profile?.graduationTimeline}</span>
+            <div className="flex items-center justify-between py-2 border-b border-background-lighter">
+              <span className="text-neutral-steel">Graduation Timeline</span>
+              <span className="font-semibold text-neutral-darkest">{profile?.graduationTimeline}</span>
             </div>
             <div className="flex items-center justify-between py-2">
-              <span className="text-gray-600">Location</span>
-              <span className="font-semibold text-gray-900">{profile?.location}</span>
+              <span className="text-neutral-steel">Location</span>
+              <span className="font-semibold text-neutral-darkest">{profile?.location}</span>
             </div>
           </div>
         </Card>
 
         {/* Resume Upload */}
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Resume Management</h3>
-          <p className="text-gray-600 mb-4">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">Resume Management</h3>
+          <p className="text-neutral-steel mb-4">
             Upload your resume to automatically extract skills and improve your career matches.
           </p>
           <ResumeUpload showCompact={true} />
@@ -124,14 +124,14 @@ const Settings = () => {
 
         {/* AI Configuration */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">AI Configuration</h3>
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">AI Configuration</h3>
 
           {/* Demo Mode Toggle */}
-          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+          <div className="mb-6 p-4 bg-background-primary rounded-xl">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <div className="font-semibold text-gray-900 mb-1">Demo Mode</div>
-                <p className="text-sm text-gray-600">
+                <div className="font-semibold text-neutral-darkest mb-1">Demo Mode</div>
+                <p className="text-sm text-neutral-steel">
                   Use mock AI responses instead of calling OpenAI API. Perfect for testing without an API key.
                 </p>
               </div>
@@ -162,10 +162,10 @@ const Settings = () => {
           {/* API Key Input */}
           <div className="space-y-4">
             <div>
-              <label className="block font-semibold text-gray-900 mb-2">
+              <label className="block font-semibold text-neutral-darkest mb-2">
                 OpenAI API Key
               </label>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-neutral-steel mb-4">
                 Enter your OpenAI API key to enable full AI features. Your key is stored locally and never sent to our servers.
               </p>
               <Input
@@ -189,7 +189,7 @@ const Settings = () => {
             </div>
 
             {!settings.demoMode && !apiKey.trim() && (
-              <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+              <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
                 <p className="text-sm text-yellow-800">
                   ⚠️ No API key configured. AI features will use demo mode. Add your OpenAI API key above to enable full functionality.
                 </p>
@@ -197,7 +197,7 @@ const Settings = () => {
             )}
           </div>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
             <h4 className="font-semibold text-blue-900 mb-2">About API Usage</h4>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Your API key is stored securely in your browser's local storage</li>
@@ -210,15 +210,15 @@ const Settings = () => {
 
         {/* Data Management */}
         <Card className="border-2 border-red-200">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Data Management</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">Data Management</h3>
+          <p className="text-sm text-neutral-steel mb-4">
             All your data is stored locally in your browser. No data is sent to external servers.
           </p>
 
           <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="font-semibold text-gray-900 mb-1">Export Data</div>
-              <p className="text-sm text-gray-600 mb-3">
+            <div className="p-4 bg-background-primary rounded-xl">
+              <div className="font-semibold text-neutral-darkest mb-1">Export Data</div>
+              <p className="text-sm text-neutral-steel mb-3">
                 Download a copy of your profile, roadmap, and progress as JSON.
               </p>
               <Button
@@ -244,7 +244,7 @@ const Settings = () => {
               </Button>
             </div>
 
-            <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+            <div className="p-4 bg-red-50 rounded-xl border border-red-200">
               <div className="font-semibold text-red-900 mb-1">Clear All Data</div>
               <p className="text-sm text-red-700 mb-3">
                 This will permanently delete your profile, roadmap, and all progress. This cannot be undone.
@@ -267,10 +267,10 @@ const Settings = () => {
 
         {/* About */}
         <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">About LaunchPad</h3>
-          <div className="space-y-3 text-sm text-gray-600">
+          <h3 className="text-xl font-bold text-neutral-darkest mb-4">About LaunchPad</h3>
+          <div className="space-y-3 text-sm text-neutral-steel">
             <p>
-              <strong className="text-gray-900">Version:</strong> 1.0.0
+              <strong className="text-neutral-darkest">Version:</strong> 1.0.0
             </p>
             <p>
               LaunchPad is an AI-powered career operating system designed to help students

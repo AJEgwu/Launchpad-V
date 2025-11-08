@@ -101,7 +101,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
       <Card>
         <div className="flex items-center justify-center p-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <p className="ml-3 text-gray-600">Calculating your role matches...</p>
+          <p className="ml-3 text-neutral-steel">Calculating your role matches...</p>
         </div>
       </Card>
     )
@@ -111,11 +111,11 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
     return (
       <Card>
         <div className="text-center p-8">
-          <FiTarget className="mx-auto text-5xl text-gray-300 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <FiTarget className="mx-auto text-5xl text-neutral-slate mb-4" />
+          <h3 className="text-xl font-semibold text-neutral-darkest mb-2">
             No matches calculated yet
           </h3>
-          <p className="text-gray-600">
+          <p className="text-neutral-steel">
             Complete your profile to see personalized role recommendations
           </p>
         </div>
@@ -149,7 +149,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
           'excellent': 'bg-green-50 border-green-200',
           'good': 'bg-blue-50 border-blue-200',
           'fair': 'bg-yellow-50 border-yellow-200',
-          'needs-development': 'bg-gray-50 border-gray-200'
+          'needs-development': 'bg-background-primary border-background-primary'
         }
 
         return (
@@ -173,7 +173,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                     </div>
 
                     {/* Role Name */}
-                    <h3 className="text-xl font-bold text-gray-900">
+                    <h3 className="text-xl font-bold text-neutral-darkest">
                       {roleProfile.name}
                     </h3>
 
@@ -185,7 +185,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                       </div>
                     )}
                   </div>
-                  <p className="text-gray-600">{roleProfile.summary}</p>
+                  <p className="text-neutral-steel">{roleProfile.summary}</p>
                 </div>
 
                 {/* Match Score */}
@@ -193,26 +193,26 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                   <div className={`text-3xl font-bold bg-gradient-to-r ${matchLevelColors[match.matchLevel]} bg-clip-text text-transparent`}>
                     {match.score}%
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">Match</p>
+                  <p className="text-xs text-neutral-steel mt-1">Match</p>
                 </div>
               </div>
 
               {/* Skills Overview */}
               <div className="grid grid-cols-3 gap-4">
-                <div className="p-3 bg-green-50 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">Matched</p>
+                <div className="p-3 bg-green-50 rounded-xl">
+                  <p className="text-sm text-neutral-steel mb-1">Matched</p>
                   <p className="text-lg font-bold text-green-700">
                     {match.matchedSkills.length}
                   </p>
                 </div>
-                <div className="p-3 bg-red-50 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">To Learn</p>
+                <div className="p-3 bg-red-50 rounded-xl">
+                  <p className="text-sm text-neutral-steel mb-1">To Learn</p>
                   <p className="text-lg font-bold text-red-700">
                     {match.gapSkills.length}
                   </p>
                 </div>
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">Bonus</p>
+                <div className="p-3 bg-blue-50 rounded-xl">
+                  <p className="text-sm text-neutral-steel mb-1">Bonus</p>
                   <p className="text-lg font-bold text-blue-700">
                     {match.bonusSkills.length}
                   </p>
@@ -220,8 +220,8 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
               </div>
 
               {/* Recommendation */}
-              <div className="p-4 bg-gray-50 rounded-lg border-l-4 border-primary">
-                <p className="text-gray-800">{match.recommendation}</p>
+              <div className="p-4 bg-background-primary rounded-xl border-l-4 border-primary">
+                <p className="text-neutral-darker">{match.recommendation}</p>
               </div>
 
               {/* Actions */}
@@ -235,7 +235,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                       handleGenerateVideo(match.roleId)
                     }
                   }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                     hasVideo
                       ? 'bg-primary text-white hover:bg-primary/90'
                       : 'border-2 border-primary text-primary hover:bg-primary/5'
@@ -251,7 +251,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                     e.stopPropagation()
                     setExpandedRole(isExpanded ? null : match.roleId)
                   }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 hover:border-primary hover:text-primary transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gray-300 text-neutral-steel hover:border-primary hover:text-primary transition-all"
                 >
                   {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
                   {isExpanded ? 'Hide Details' : 'View Details'}
@@ -260,7 +260,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
 
               {/* Video Player */}
               {isExpanded && hasVideo && (
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-background-primary">
                   <VideoPlayer
                     videoData={videoData}
                     roleName={roleProfile.name}
@@ -271,11 +271,11 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
 
               {/* Expanded Details */}
               {isExpanded && (
-                <div className="space-y-4 pt-4 border-t border-gray-200">
+                <div className="space-y-4 pt-4 border-t border-background-primary">
                   {/* Matched Skills */}
                   {match.matchedSkills.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">✅ Your Matching Skills</h4>
+                      <h4 className="font-semibold text-neutral-darkest mb-2">✅ Your Matching Skills</h4>
                       <div className="flex flex-wrap gap-2">
                         {match.matchedSkills.map(skill => (
                           <Badge key={skill} variant="success">{skill}</Badge>
@@ -287,7 +287,7 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
                   {/* Gap Skills */}
                   {match.gapSkills.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">📚 Skills to Develop</h4>
+                      <h4 className="font-semibold text-neutral-darkest mb-2">📚 Skills to Develop</h4>
                       <div className="flex flex-wrap gap-2">
                         {match.gapSkills.slice(0, 5).map(skill => (
                           <Badge key={skill} variant="warning">{skill}</Badge>
@@ -301,8 +301,8 @@ const RoleSelectionPanel = ({ selectedRole, onRoleSelect }) => {
 
                   {/* Career Path */}
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Career Trajectory</h4>
-                    <p className="text-gray-600">{roleProfile.careerTrajectory}</p>
+                    <h4 className="font-semibold text-neutral-darkest mb-2">Career Trajectory</h4>
+                    <p className="text-neutral-steel">{roleProfile.careerTrajectory}</p>
                   </div>
                 </div>
               )}

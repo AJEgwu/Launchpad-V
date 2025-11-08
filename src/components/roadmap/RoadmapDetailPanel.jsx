@@ -113,24 +113,24 @@ const RoadmapDetailPanel = ({
   }
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full md:w-[500px] bg-white shadow-2xl z-50 overflow-y-auto">
+    <div className="fixed inset-y-0 right-0 w-full md:w-[500px] bg-white shadow-card-hover z-50 overflow-y-auto">
       {/* Header */}
-      <div className="sticky top-0 bg-white border-b-2 border-gray-200 px-6 py-4 z-10">
+      <div className="sticky top-0 bg-white border-b-2 border-background-primary px-6 py-4 z-10">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
+            <h2 className="text-xl font-bold text-neutral-darkest mb-1">
               {milestone.name}
             </h2>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-neutral-steel">
               {phase.name}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="flex-shrink-0 w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition-colors"
+            className="flex-shrink-0 w-8 h-8 rounded-full hover:bg-background-primary flex items-center justify-center transition-colors"
             aria-label="Close panel"
           >
-            <FiX className="w-5 h-5 text-gray-600" />
+            <FiX className="w-5 h-5 text-neutral-steel" />
           </button>
         </div>
       </div>
@@ -180,19 +180,19 @@ const RoadmapDetailPanel = ({
 
         {/* Description */}
         <div>
-          <h3 className="font-bold text-gray-900 mb-2">Description</h3>
-          <p className="text-gray-700 leading-relaxed">
+          <h3 className="font-bold text-neutral-darkest mb-2">Description</h3>
+          <p className="text-neutral-steel leading-relaxed">
             {milestone.description}
           </p>
         </div>
 
         {/* Why This Matters */}
-        <Card className="bg-blue-50 border-2 border-blue-200">
-          <h3 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
+        <Card className="bg-background-primary border-2 border-primary/20">
+          <h3 className="font-bold text-neutral-darkest mb-2 flex items-center gap-2">
             <span>💡</span>
             Why This Matters
           </h3>
-          <p className="text-blue-800 text-sm leading-relaxed">
+          <p className="text-neutral-steel text-sm leading-relaxed">
             {getWhyItMatters()}
           </p>
         </Card>
@@ -200,7 +200,7 @@ const RoadmapDetailPanel = ({
         {/* Skills */}
         {milestone.skills && milestone.skills.length > 0 && (
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Skills You'll Build</h3>
+            <h3 className="font-bold text-neutral-darkest mb-3">Skills You'll Build</h3>
             <div className="flex flex-wrap gap-2">
               {milestone.skills.map(skill => (
                 <Badge key={skill} variant="default" size="md">
@@ -214,10 +214,10 @@ const RoadmapDetailPanel = ({
         {/* Projects */}
         {milestone.projects && milestone.projects.length > 0 && (
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Projects</h3>
+            <h3 className="font-bold text-neutral-darkest mb-3">Projects</h3>
             <ul className="space-y-2">
               {milestone.projects.map((project, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-gray-700">
+                <li key={idx} className="flex items-start gap-2 text-neutral-steel">
                   <span className="text-primary mt-1">•</span>
                   <span>{project}</span>
                 </li>
@@ -229,16 +229,16 @@ const RoadmapDetailPanel = ({
         {/* Resources */}
         {milestone.resources && milestone.resources.length > 0 && (
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Recommended Resources</h3>
+            <h3 className="font-bold text-neutral-darkest mb-3">Recommended Resources</h3>
             <div className="space-y-2">
               {milestone.resources.map((resource, idx) => (
                 <a
                   key={idx}
                   href="#"
-                  className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                  className="flex items-center gap-2 p-3 bg-background-lighter rounded-xl hover:bg-background-primary transition-colors group"
                 >
-                  <FiExternalLink className="w-4 h-4 text-gray-600 group-hover:text-primary" />
-                  <span className="text-sm text-gray-700 group-hover:text-primary flex-1">
+                  <FiExternalLink className="w-4 h-4 text-neutral-steel group-hover:text-primary" />
+                  <span className="text-sm text-neutral-steel group-hover:text-primary flex-1">
                     {resource}
                   </span>
                 </a>
@@ -271,12 +271,12 @@ const RoadmapDetailPanel = ({
 
         {/* Notes */}
         <div>
-          <h3 className="font-bold text-gray-900 mb-3">Your Notes</h3>
+          <h3 className="font-bold text-neutral-darkest mb-3">Your Notes</h3>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Add personal notes, resources, or progress updates..."
-            className="w-full h-32 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+            className="w-full h-32 px-4 py-3 border-2 border-background-primary rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-neutral-steel"
           />
           <Button
             variant="outline"
@@ -289,28 +289,28 @@ const RoadmapDetailPanel = ({
         </div>
 
         {/* Portfolio Tag */}
-        <Card className="border-2 border-gray-200">
+        <Card className="border-2 border-background-primary">
           <button
             onClick={handleTogglePortfolio}
             className="w-full flex items-center justify-between"
           >
             <div className="flex items-center gap-3">
-              <FiBookmark className={`w-5 h-5 ${isPortfolioItem ? 'text-primary' : 'text-gray-400'}`} />
+              <FiBookmark className={`w-5 h-5 ${isPortfolioItem ? 'text-primary' : 'text-neutral-slate'}`} />
               <div className="text-left">
-                <div className="font-semibold text-gray-900">
+                <div className="font-semibold text-neutral-darkest">
                   Showcase in Portfolio
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-neutral-steel">
                   Mark this as a highlight project
                 </div>
               </div>
             </div>
             <div className={`
               w-12 h-6 rounded-full transition-colors
-              ${isPortfolioItem ? 'bg-primary' : 'bg-gray-300'}
+              ${isPortfolioItem ? 'bg-primary' : 'bg-background-secondary'}
             `}>
               <div className={`
-                w-5 h-5 rounded-full bg-white shadow-md transform transition-transform mt-0.5
+                w-5 h-5 rounded-full bg-white shadow-card transform transition-transform mt-0.5
                 ${isPortfolioItem ? 'translate-x-6' : 'translate-x-0.5'}
               `} />
             </div>
@@ -320,7 +320,7 @@ const RoadmapDetailPanel = ({
         {/* Sponsor Tags */}
         {milestone.sponsorTags && milestone.sponsorTags.length > 0 && (
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Sponsor Aligned</h3>
+            <h3 className="font-bold text-neutral-darkest mb-3">Sponsor Aligned</h3>
             <div className="flex flex-wrap gap-2">
               {milestone.sponsorTags.map(tag => (
                 <Badge key={tag} variant="sponsor" size="md">

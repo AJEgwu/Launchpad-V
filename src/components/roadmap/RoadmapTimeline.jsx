@@ -63,7 +63,7 @@ const RoadmapTimeline = ({
     return (
       <div className="text-center py-12">
         <div className="text-4xl mb-2">📍</div>
-        <p className="text-gray-600">No phases in this roadmap yet.</p>
+        <p className="text-neutral-steel">No phases in this roadmap yet.</p>
       </div>
     )
   }
@@ -78,10 +78,10 @@ const RoadmapTimeline = ({
         {canScrollLeft && (
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-card-hover border-2 border-background-primary flex items-center justify-center hover:bg-background-lighter transition-all"
             aria-label="Scroll left"
           >
-            <FiChevronLeft className="w-5 h-5 text-gray-700" />
+            <FiChevronLeft className="w-5 h-5 text-neutral-darkest" />
           </button>
         )}
 
@@ -89,10 +89,10 @@ const RoadmapTimeline = ({
         {canScrollRight && (
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-card-hover border-2 border-background-primary flex items-center justify-center hover:bg-background-lighter transition-all"
             aria-label="Scroll right"
           >
-            <FiChevronRight className="w-5 h-5 text-gray-700" />
+            <FiChevronRight className="w-5 h-5 text-neutral-darkest" />
           </button>
         )}
 
@@ -108,7 +108,7 @@ const RoadmapTimeline = ({
           {/* Timeline Lane */}
           <div className="relative inline-flex items-start gap-8 pb-4">
             {/* Background line */}
-            <div className="absolute top-16 left-0 right-0 h-0.5 bg-gray-300 -z-10" />
+            <div className="absolute top-16 left-0 right-0 h-0.5 bg-background-primary -z-10" />
 
             {/* Phase Cards */}
             {phases.map((phase, index) => (

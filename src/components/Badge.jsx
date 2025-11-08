@@ -5,13 +5,14 @@ const Badge = ({
   className = ''
 }) => {
   const variants = {
-    default: 'bg-gray-100 text-gray-800',
-    primary: 'bg-primary/10 text-primary',
-    secondary: 'bg-secondary/10 text-secondary',
-    success: 'bg-green-100 text-green-800',
-    warning: 'bg-yellow-100 text-yellow-800',
-    orange: 'bg-accent-orange/30 text-orange-800',
-    sponsor: 'bg-accent-pink/20 text-pink-800 border border-accent-pink/40'
+    default: 'bg-background-primary text-neutral-steel',
+    primary: 'bg-background-primary text-primary',
+    secondary: 'bg-background-secondary text-secondary',
+    success: 'bg-background-primary text-status-success',
+    warning: 'bg-background-cream text-accent-yellow',
+    orange: 'bg-background-cream text-accent-orange',
+    error: 'bg-background-cream text-status-error',
+    sponsor: 'bg-background-primary text-primary border border-primary/20'
   }
 
   const sizes = {
@@ -21,7 +22,7 @@ const Badge = ({
   }
 
   return (
-    <span className={`inline-flex items-center rounded-full font-medium ${variants[variant]} ${sizes[size]} ${className}`}>
+    <span className={`inline-flex items-center rounded-md font-medium ${variants[variant]} ${sizes[size]} ${className}`}>
       {children}
     </span>
   )
