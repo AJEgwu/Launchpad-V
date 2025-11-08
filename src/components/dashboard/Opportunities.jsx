@@ -275,7 +275,7 @@ const OpportunityCard = ({ opportunity }) => {
           <Button
             variant="primary"
             size="md"
-            onClick={() => alert('Application links would open here in production')}
+            onClick={() => window.open(opportunity.application_link, '_blank', 'noopener,noreferrer')}
           >
             Apply Now
           </Button>

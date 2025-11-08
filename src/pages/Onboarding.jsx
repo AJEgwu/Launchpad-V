@@ -2,6 +2,18 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore'
 import { aiService } from '../services/ai'
+import {
+  FiZap,
+  FiUser,
+  FiBookOpen,
+  FiHeart,
+  FiCode,
+  FiClock,
+  FiMapPin,
+  FiBriefcase,
+  FiLoader,
+  FiArrowRight
+} from 'react-icons/fi'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Select from '../components/Select'
@@ -22,9 +34,8 @@ const Onboarding = () => {
     graduationTimeline: '',
     location: '',
     constraints: {
-      time: '',
-      money: '',
-      workload: ''
+      timeAvailability: '',
+      budget: ''
     },
     targetRoles: []
   })
@@ -109,14 +120,21 @@ const Onboarding = () => {
     label: skillsData[key].role
   }))
 
+  const stepIcons = [FiUser, FiBookOpen, FiHeart, FiCode, FiClock, FiMapPin, FiBriefcase]
+  const StepIcon = stepIcons[currentStep - 1]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent-cream to-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-white to-accent-cream/30">
       {/* Header */}
-      <header className="px-6 py-6">
+      <header className="px-6 py-6 backdrop-blur-sm bg-white/70 border-b border-gray-200/50">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="text-3xl">🚀</div>
-            <h1 className="text-2xl font-bold text-gray-900">LaunchPad</h1>
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
+              <FiZap className="text-white text-xl" />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              LaunchPad
+            </h1>
           </div>
         </div>
       </header>
@@ -128,15 +146,22 @@ const Onboarding = () => {
           <ProgressBar current={currentStep} total={totalSteps} className="mb-12" />
 
           {/* Form Card */}
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
+            {/* Step Icon */}
+            <div className="flex justify-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center">
+                <StepIcon className="text-primary text-3xl" />
+              </div>
+            </div>
+
             {/* Step 1: Name */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     Welcome! Let's get started.
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     First, what should we call you?
                   </p>
                 </div>
@@ -154,11 +179,11 @@ const Onboarding = () => {
             {/* Step 2: Major */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     What are you studying?
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     Tell us your major or area of study.
                   </p>
                 </div>
@@ -175,11 +200,11 @@ const Onboarding = () => {
             {/* Step 3: Interests */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     What interests you?
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     Select all that apply. We'll use this to personalize your roadmap.
                   </p>
                 </div>
@@ -206,11 +231,11 @@ const Onboarding = () => {
             {/* Step 4: Current Skills */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     Any skills already?
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     Select what you're already comfortable with. It's okay if none apply!
                   </p>
                 </div>
@@ -237,11 +262,11 @@ const Onboarding = () => {
             {/* Step 5: Experience Level */}
             {currentStep === 5 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     What's your experience level?
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     This helps us calibrate your roadmap.
                   </p>
                 </div>
@@ -269,11 +294,11 @@ const Onboarding = () => {
             {/* Step 6: Timeline & Location */}
             {currentStep === 6 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     Timeline and location
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     Help us understand your context.
                   </p>
                 </div>
@@ -293,23 +318,19 @@ const Onboarding = () => {
                 />
                 <div className="space-y-4 pt-4">
                   <p className="font-medium text-gray-700">Any constraints we should know about?</p>
-                  <Input
-                    label="Time availability (hours/week)"
-                    value={formData.constraints.time}
-                    onChange={(e) => handleConstraintChange('time', e.target.value)}
-                    placeholder="e.g., 5-10 hours per week"
+                  <Select
+                    label="Time Availability"
+                    value={formData.constraints.timeAvailability}
+                    onChange={(e) => handleConstraintChange('timeAvailability', e.target.value)}
+                    options={timeAvailabilityOptions}
+                    placeholder="Select your availability"
                   />
-                  <Input
-                    label="Budget considerations"
-                    value={formData.constraints.money}
-                    onChange={(e) => handleConstraintChange('money', e.target.value)}
-                    placeholder="e.g., Need free resources"
-                  />
-                  <Input
-                    label="Workload considerations"
-                    value={formData.constraints.workload}
-                    onChange={(e) => handleConstraintChange('workload', e.target.value)}
-                    placeholder="e.g., Full-time student + part-time job"
+                  <Select
+                    label="Budget Considerations"
+                    value={formData.constraints.budget}
+                    onChange={(e) => handleConstraintChange('budget', e.target.value)}
+                    options={budgetOptions}
+                    placeholder="Select your budget preference"
                   />
                 </div>
               </div>
@@ -318,11 +339,11 @@ const Onboarding = () => {
             {/* Step 7: Target Roles */}
             {currentStep === 7 && (
               <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     What roles interest you?
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-lg">
                     Select one or more. Not sure? We'll recommend options for you!
                   </p>
                 </div>
@@ -376,8 +397,19 @@ const Onboarding = () => {
                 <Button
                   onClick={handleSubmit}
                   disabled={!isStepValid() || isGenerating}
+                  className="group"
                 >
-                  {isGenerating ? 'Generating Your Roadmap...' : 'Generate Roadmap 🚀'}
+                  {isGenerating ? (
+                    <>
+                      <FiLoader className="mr-2 animate-spin" />
+                      Generating Your Roadmap...
+                    </>
+                  ) : (
+                    <>
+                      Generate Roadmap
+                      <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </Button>
               )}
             </div>
@@ -443,6 +475,22 @@ const timelineOptions = [
   { value: '3-years', label: '3 years' },
   { value: '4-plus-years', label: '4+ years' },
   { value: 'graduated', label: 'Already graduated' }
+]
+
+const timeAvailabilityOptions = [
+  { value: 'full-time', label: 'Full-time (30+ hours/week)' },
+  { value: 'part-time', label: 'Part-time (15-30 hours/week)' },
+  { value: 'limited', label: 'Limited (5-15 hours/week)' },
+  { value: 'minimal', label: 'Minimal (Less than 5 hours/week)' },
+  { value: 'flexible', label: 'Flexible - varies by week' }
+]
+
+const budgetOptions = [
+  { value: 'free-only', label: 'Free resources only' },
+  { value: 'minimal', label: 'Minimal budget (up to $50)' },
+  { value: 'moderate', label: 'Moderate budget ($50-$200)' },
+  { value: 'flexible', label: 'Flexible budget' },
+  { value: 'employer-sponsored', label: 'Employer or school sponsored' }
 ]
 
 export default Onboarding

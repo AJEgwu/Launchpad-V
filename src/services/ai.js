@@ -13,8 +13,10 @@ class AIService {
         dangerouslyAllowBrowser: true
       })
       this.demoMode = false
+      console.log('✅ AI Service: Real API mode enabled with key:', apiKey.substring(0, 10) + '...')
     } else {
       this.demoMode = true
+      console.log('⚠️ AI Service: Demo mode enabled (no API key)')
     }
   }
 
@@ -57,6 +59,7 @@ Constraints: ${JSON.stringify(profile.constraints)}
 Create 3-4 phases with 2-4 milestones each. Be specific and actionable.`
 
     try {
+      console.log('🤖 Calling OpenAI API for roadmap generation...')
       const response = await this.client.chat.completions.create({
         model: 'gpt-4',
         messages: [
@@ -67,9 +70,11 @@ Create 3-4 phases with 2-4 milestones each. Be specific and actionable.`
       })
 
       const content = response.choices[0].message.content
+      console.log('✅ OpenAI API call successful! Tokens used:', response.usage)
       return JSON.parse(content)
     } catch (error) {
-      console.error('AI Error:', error)
+      console.error('❌ OpenAI API Error:', error)
+      console.log('⚠️ Falling back to demo mode')
       return this.generateMockRoadmap(profile)
     }
   }
@@ -91,6 +96,7 @@ ${JSON.stringify(context, null, 2)}
 Be conversational, encouraging, and specific. Reference their roadmap when relevant.`
 
     try {
+      console.log('🤖 Calling OpenAI API for chat response...')
       const response = await this.client.chat.completions.create({
         model: 'gpt-4',
         messages: [
@@ -100,9 +106,10 @@ Be conversational, encouraging, and specific. Reference their roadmap when relev
         temperature: 0.8,
       })
 
+      console.log('✅ OpenAI API call successful! Tokens used:', response.usage)
       return response.choices[0].message.content
     } catch (error) {
-      console.error('AI Error:', error)
+      console.error('❌ OpenAI API Error:', error)
       return "I'm having trouble connecting right now. Please check your API key in settings or enable demo mode."
     }
   }

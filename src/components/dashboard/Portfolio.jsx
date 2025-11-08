@@ -1,11 +1,44 @@
+import { useState } from 'react'
 import { useStore } from '../../store/useStore'
 import { calculateReadinessScore, getCompletedSkills } from '../../utils/matching'
 import Card from '../Card'
 import Badge from '../Badge'
+import Button from '../Button'
+import Input from '../Input'
+import Modal from '../Modal'
 import skillsData from '../../data/skills.json'
 
 const Portfolio = () => {
-  const { profile, roadmap, interviewSessions } = useStore()
+  const {
+    profile,
+    roadmap,
+    interviewSessions,
+    portfolio,
+    addCustomProject,
+    removeCustomProject,
+    updateProfileLinks
+  } = useStore()
+
+  const [showProjectModal, setShowProjectModal] = useState(false)
+  const [showLinksModal, setShowLinksModal] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
+  const [shareLink, setShareLink] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [newProject, setNewProject] = useState({
+    title: '',
+    description: '',
+    technologies: '',
+    link: ''
+  })
+  const [links, setLinks] = useState({
+    githubUrl: portfolio?.githubUrl || '',
+    linkedinUrl: portfolio?.linkedinUrl || '',
+    resumeUrl: portfolio?.resumeUrl || '',
+    portfolioUrl: portfolio?.portfolioUrl || ''
+  })
+
+  // Ensure customProjects exists
+  const customProjects = portfolio?.customProjects || []
 
   if (!profile || !roadmap) {
     return (
@@ -40,17 +73,83 @@ const Portfolio = () => {
     ? Math.round(interviewSessions.reduce((sum, s) => sum + s.averageScore, 0) / interviewSessions.length)
     : 0
 
+  const handleAddProject = () => {
+    if (!newProject.title.trim()) return
+
+    addCustomProject({
+      ...newProject,
+      technologies: newProject.technologies.split(',').map(t => t.trim()).filter(Boolean),
+      createdAt: new Date().toISOString()
+    })
+
+    setNewProject({ title: '', description: '', technologies: '', link: '' })
+    setShowProjectModal(false)
+  }
+
+  const handleSaveLinks = () => {
+    updateProfileLinks(links)
+    setShowLinksModal(false)
+  }
+
+  const handleGenerateShareLink = () => {
+    // Generate a shareable portfolio summary
+    const portfolioData = {
+      name: profile.name,
+      roles: profile.targetRoles.join(', '),
+      skills: allSkills.slice(0, 10).join(', '),
+      readiness: readinessScores.length > 0 ? readinessScores[0].score : 0,
+      projects: customProjects.length + completedMilestones.filter(m => m.projects?.length > 0).length,
+      interviews: interviewSessions.length,
+      avgScore: avgInterviewScore
+    }
+
+    // Create a shareable URL with encoded data
+    const baseUrl = window.location.origin + window.location.pathname
+    const params = new URLSearchParams({
+      portfolio: btoa(JSON.stringify(portfolioData))
+    })
+    const link = `${baseUrl}?${params.toString()}`
+
+    setShareLink(link)
+    setShowShareModal(true)
+    setCopied(false)
+  }
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareLink)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 3000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea')
+      textArea.value = shareLink
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 3000)
+    }
+  }
+
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Portfolio 🏆
-          </h1>
-          <p className="text-gray-600">
-            Your shareable career profile showcasing skills, progress, and readiness
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Portfolio 🏆
+            </h1>
+            <p className="text-gray-600">
+              Your shareable career profile showcasing skills, progress, and readiness
+            </p>
+          </div>
+          <Button onClick={() => setShowLinksModal(true)} variant="outline">
+            Edit Links
+          </Button>
         </div>
 
         {/* Profile Card */}
@@ -66,13 +165,59 @@ const Portfolio = () => {
               <p className="text-lg text-gray-700 mb-3">
                 {profile.major} • {profile.experienceLevel.charAt(0).toUpperCase() + profile.experienceLevel.slice(1)} Level
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {profile.targetRoles.map(role => (
                   <Badge key={role} variant="primary" size="lg">
                     {skillsData[role]?.role || role}
                   </Badge>
                 ))}
               </div>
+
+              {/* Social Links */}
+              {(portfolio.githubUrl || portfolio.linkedinUrl || portfolio.resumeUrl || portfolio.portfolioUrl) && (
+                <div className="flex flex-wrap gap-3">
+                  {portfolio.githubUrl && (
+                    <a
+                      href={portfolio.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1 bg-gray-900 text-white rounded-lg text-sm hover:bg-gray-800 transition-colors"
+                    >
+                      GitHub →
+                    </a>
+                  )}
+                  {portfolio.linkedinUrl && (
+                    <a
+                      href={portfolio.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+                    >
+                      LinkedIn →
+                    </a>
+                  )}
+                  {portfolio.resumeUrl && (
+                    <a
+                      href={portfolio.resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors"
+                    >
+                      Resume →
+                    </a>
+                  )}
+                  {portfolio.portfolioUrl && (
+                    <a
+                      href={portfolio.portfolioUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition-colors"
+                    >
+                      Portfolio →
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </Card>
@@ -137,6 +282,81 @@ const Portfolio = () => {
           </div>
         </Card>
 
+        {/* Custom Projects */}
+        <Card>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold text-gray-900">
+              Projects ({customProjects.length + completedMilestones.filter(m => m.projects?.length > 0).length})
+            </h3>
+            <Button onClick={() => setShowProjectModal(true)} size="sm">
+              + Add Project
+            </Button>
+          </div>
+
+          <div className="space-y-4">
+            {/* Custom Projects */}
+            {customProjects.map((project, idx) => (
+              <div
+                key={idx}
+                className="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border-2 border-primary/20"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h4 className="font-bold text-gray-900">{project.title}</h4>
+                  <button
+                    onClick={() => removeCustomProject(idx)}
+                    className="text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">{project.description}</p>
+                {project.technologies && project.technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.technologies.map((tech, i) => (
+                      <Badge key={i} variant="secondary" size="sm">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary hover:underline"
+                  >
+                    View Project →
+                  </a>
+                )}
+              </div>
+            ))}
+
+            {/* Milestone Projects */}
+            {completedMilestones
+              .filter(m => m.projects && m.projects.length > 0)
+              .map((milestone, idx) => (
+                <div key={idx} className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h4 className="font-bold text-gray-900 mb-2">{milestone.name}</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
+                    {milestone.projects.map((project, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-green-600">✓</span>
+                        <span>{project}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+            {customProjects.length === 0 && completedMilestones.filter(m => m.projects?.length > 0).length === 0 && (
+              <p className="text-gray-600 text-center py-4">
+                No projects yet. Add your custom projects or complete milestones to build your portfolio!
+              </p>
+            )}
+          </div>
+        </Card>
+
         {/* Completed Milestones */}
         <Card>
           <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -171,33 +391,6 @@ const Portfolio = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          )}
-        </Card>
-
-        {/* Projects */}
-        <Card>
-          <h3 className="text-xl font-bold text-gray-900 mb-4">Projects</h3>
-          {completedMilestones.length === 0 ? (
-            <p className="text-gray-600">
-              Complete milestones to build your project portfolio.
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {completedMilestones
-                .filter(m => m.projects && m.projects.length > 0)
-                .flatMap(m => m.projects)
-                .map((project, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 bg-gray-50 rounded-lg border border-gray-200"
-                  >
-                    <div className="flex items-start gap-2">
-                      <span className="text-primary">•</span>
-                      <span className="text-gray-700">{project}</span>
-                    </div>
-                  </div>
-                ))}
             </div>
           )}
         </Card>
@@ -243,7 +436,7 @@ const Portfolio = () => {
               Showcase your progress to recruiters and mentors
             </p>
             <button
-              onClick={() => alert('Sharing functionality would be implemented in production')}
+              onClick={handleGenerateShareLink}
               className="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
             >
               Generate Share Link
@@ -251,6 +444,141 @@ const Portfolio = () => {
           </div>
         </Card>
       </div>
+
+      {/* Add Project Modal */}
+      <Modal
+        isOpen={showProjectModal}
+        onClose={() => setShowProjectModal(false)}
+        title="Add Custom Project"
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setShowProjectModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddProject} disabled={!newProject.title.trim()}>
+              Add Project
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <Input
+            label="Project Title"
+            value={newProject.title}
+            onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+            placeholder="e.g., E-commerce Website"
+            required
+          />
+          <div>
+            <label className="block font-medium text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea
+              value={newProject.description}
+              onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+              placeholder="Brief description of your project..."
+              rows={4}
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+          <Input
+            label="Technologies Used"
+            value={newProject.technologies}
+            onChange={(e) => setNewProject({ ...newProject, technologies: e.target.value })}
+            placeholder="e.g., React, Node.js, MongoDB"
+            helperText="Separate with commas"
+          />
+          <Input
+            label="Project Link (optional)"
+            value={newProject.link}
+            onChange={(e) => setNewProject({ ...newProject, link: e.target.value })}
+            placeholder="https://github.com/username/project"
+          />
+        </div>
+      </Modal>
+
+      {/* Edit Links Modal */}
+      <Modal
+        isOpen={showLinksModal}
+        onClose={() => setShowLinksModal(false)}
+        title="Edit Profile Links"
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setShowLinksModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveLinks}>
+              Save Links
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <Input
+            label="GitHub URL"
+            value={links.githubUrl}
+            onChange={(e) => setLinks({ ...links, githubUrl: e.target.value })}
+            placeholder="https://github.com/username"
+          />
+          <Input
+            label="LinkedIn URL"
+            value={links.linkedinUrl}
+            onChange={(e) => setLinks({ ...links, linkedinUrl: e.target.value })}
+            placeholder="https://linkedin.com/in/username"
+          />
+          <Input
+            label="Resume URL"
+            value={links.resumeUrl}
+            onChange={(e) => setLinks({ ...links, resumeUrl: e.target.value })}
+            placeholder="https://drive.google.com/file/..."
+            helperText="Link to your resume (Google Drive, Dropbox, etc.)"
+          />
+          <Input
+            label="Portfolio Website"
+            value={links.portfolioUrl}
+            onChange={(e) => setLinks({ ...links, portfolioUrl: e.target.value })}
+            placeholder="https://yourportfolio.com"
+          />
+        </div>
+      </Modal>
+
+      {/* Share Link Modal */}
+      <Modal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        title="Share Your Portfolio"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-600">
+            Share this link with recruiters, mentors, or on your resume to showcase your progress:
+          </p>
+
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={shareLink}
+                readOnly
+                className="flex-1 bg-transparent text-sm text-gray-700 outline-none"
+              />
+              <Button
+                onClick={handleCopyLink}
+                variant={copied ? 'primary' : 'outline'}
+                size="sm"
+              >
+                {copied ? '✓ Copied!' : 'Copy Link'}
+              </Button>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p className="text-sm text-blue-900">
+              <strong>💡 Tip:</strong> This link contains a snapshot of your portfolio.
+              Update your progress and regenerate to get the latest version.
+            </p>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

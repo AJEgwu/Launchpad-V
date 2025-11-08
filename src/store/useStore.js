@@ -52,7 +52,12 @@ const useStore = create(
       portfolio: {
         completedProjects: [],
         skills: [],
-        readinessScores: {}
+        readinessScores: {},
+        customProjects: [],
+        githubUrl: '',
+        linkedinUrl: '',
+        resumeUrl: '',
+        portfolioUrl: ''
       },
       updatePortfolio: (portfolio) => set({ portfolio }),
 
@@ -64,10 +69,34 @@ const useStore = create(
         }
       })),
 
+      // Add custom project
+      addCustomProject: (project) => set(state => ({
+        portfolio: {
+          ...state.portfolio,
+          customProjects: [...state.portfolio.customProjects, project]
+        }
+      })),
+
+      // Remove custom project
+      removeCustomProject: (index) => set(state => ({
+        portfolio: {
+          ...state.portfolio,
+          customProjects: state.portfolio.customProjects.filter((_, i) => i !== index)
+        }
+      })),
+
+      // Update profile links
+      updateProfileLinks: (links) => set(state => ({
+        portfolio: {
+          ...state.portfolio,
+          ...links
+        }
+      })),
+
       // Settings
       settings: {
-        apiKey: '',
-        demoMode: true
+        apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
+        demoMode: !import.meta.env.VITE_OPENAI_API_KEY // Auto-disable demo mode if env key exists
       },
       updateSettings: (settings) => set(state => ({
         settings: { ...state.settings, ...settings }
@@ -82,7 +111,12 @@ const useStore = create(
         portfolio: {
           completedProjects: [],
           skills: [],
-          readinessScores: {}
+          readinessScores: {},
+          customProjects: [],
+          githubUrl: '',
+          linkedinUrl: '',
+          resumeUrl: '',
+          portfolioUrl: ''
         }
       }),
     }),
