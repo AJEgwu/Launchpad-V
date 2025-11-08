@@ -3,7 +3,7 @@
     {
       "id": "mcdonalds",
       "name": "McDonald's",
-      "logo": "🍔",
+      "logo": "/logos/mcdonalds.png",
       "focus_areas": ["Digital Technology", "Mobile Development", "Operations", "Management", "Customer Experience"],
       "target_roles": ["SWE", "Mobile", "PM", "UX"],
       "programs": [
@@ -16,7 +16,7 @@
     {
       "id": "pepsico",
       "name": "PepsiCo",
-      "logo": "🥤",
+      "logo": "/logos/pepsico.png",
       "focus_areas": ["Supply Chain Analytics", "Data Science", "Operations", "Sustainability", "Digital Transformation"],
       "target_roles": ["Data", "SWE", "PM"],
       "programs": [
@@ -29,7 +29,7 @@
     {
       "id": "american-airlines",
       "name": "American Airlines",
-      "logo": "✈️",
+      "logo": "/logos/aa.png",
       "focus_areas": ["Customer Experience", "Logistics", "Aviation Technology", "UX Design", "Data"],
       "target_roles": ["UX", "SWE", "Data", "PM"],
       "programs": [
@@ -42,7 +42,7 @@
     {
       "id": "fidelity",
       "name": "Fidelity Investments",
-      "logo": "💰",
+      "logo": "/logos/fidelity.png",
       "focus_areas": ["Fintech", "Data Science", "Cybersecurity", "Software Engineering", "Financial Literacy"],
       "target_roles": ["SWE", "Data", "Cybersecurity", "PM"],
       "programs": [
@@ -55,7 +55,7 @@
     {
       "id": "toyota",
       "name": "Toyota",
-      "logo": "🚗",
+      "logo": "/logos/toyota.png",
       "focus_areas": ["Mobility", "Robotics", "Automotive Software", "Manufacturing Tech", "AI & Autonomy"],
       "target_roles": ["SWE", "Cloud", "Data"],
       "programs": [
@@ -68,7 +68,7 @@
     {
       "id": "verizon",
       "name": "Verizon",
-      "logo": "📡",
+      "logo": "/logos/verizon.png",
       "focus_areas": ["5G", "Networking", "Cybersecurity", "Edge Computing", "Cloud Infrastructure"],
       "target_roles": ["Cloud", "Cybersecurity", "SWE"],
       "programs": [

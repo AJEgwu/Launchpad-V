@@ -116,7 +116,13 @@ const Opportunities = () => {
                   }
                 `}
               >
-                <div className="text-3xl mb-2">{sponsor.logo}</div>
+                <div className="h-12 mb-2 flex items-center justify-center">
+                  <img
+                    src={sponsor.logo}
+                    alt={`${sponsor.name} logo`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
                 <div className="text-xs font-semibold text-gray-700">
                   {sponsor.name}
                 </div>

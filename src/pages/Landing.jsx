@@ -13,6 +13,7 @@ import {
   FiTrendingUp,
   FiUsers
 } from 'react-icons/fi'
+import sponsorsData from '../data/sponsors.json'
 
 const Landing = () => {
   const navigate = useNavigate()
@@ -221,7 +222,13 @@ const Landing = () => {
                 key={index}
                 className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary/20 hover:-translate-y-1"
               >
-                <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">{sponsor.icon}</div>
+                <div className="h-16 mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <img
+                    src={sponsor.logo}
+                    alt={`${sponsor.name} logo`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
                 <div className="text-sm font-semibold text-gray-700">
                   {sponsor.name}
                 </div>
@@ -314,13 +321,6 @@ const features = [
   }
 ]
 
-const sponsors = [
-  { icon: '🍔', name: "McDonald's" },
-  { icon: '🥤', name: 'PepsiCo' },
-  { icon: '✈️', name: 'American Airlines' },
-  { icon: '💰', name: 'Fidelity' },
-  { icon: '🚗', name: 'Toyota' },
-  { icon: '📡', name: 'Verizon' }
-]
+const sponsors = sponsorsData.sponsors
 
 export default Landing
