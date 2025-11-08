@@ -4,6 +4,7 @@ import Card from '../Card'
 import Button from '../Button'
 import Input from '../Input'
 import Badge from '../Badge'
+import ResumeUpload from '../careerMatching/ResumeUpload'
 
 const Settings = () => {
   const { settings, updateSettings, profile } = useStore()
@@ -61,6 +62,15 @@ const Settings = () => {
             </div>
           </div>
         </Card>
+
+        {/* Resume Upload */}
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 mb-4">Resume Management</h3>
+          <p className="text-gray-600 mb-4">
+            Upload your resume to automatically extract skills and improve your career matches.
+          </p>
+          <ResumeUpload showCompact={true} />
+        </div>
 
         {/* AI Configuration */}
         <Card>

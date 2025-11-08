@@ -4,6 +4,7 @@ import { calculateFitScore } from '../../utils/matching'
 import Card from '../Card'
 import Badge from '../Badge'
 import Button from '../Button'
+import CareerMatchPanel from '../careerMatching/CareerMatchPanel'
 import opportunitiesData from '../../data/opportunities.json'
 import sponsorsData from '../../data/sponsors.json'
 
@@ -42,6 +43,9 @@ const Opportunities = () => {
             Discover internships and roles matched to your profile with transparent fit scores
           </p>
         </div>
+
+        {/* Career Match - Compact View */}
+        <CareerMatchPanel limit={1} showTitle={false} compact={true} />
 
         {/* Filters */}
         <Card>

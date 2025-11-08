@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore'
 import { aiService } from '../services/ai'
+import { getRoleProfile } from '../config/roleProfiles'
 import {
   FiZap,
   FiUser,
@@ -12,19 +13,27 @@ import {
   FiMapPin,
   FiBriefcase,
   FiLoader,
-  FiArrowRight
+  FiArrowRight,
+  FiCheckCircle,
+  FiUpload,
+  FiTarget
 } from 'react-icons/fi'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Select from '../components/Select'
 import ProgressBar from '../components/ProgressBar'
+import RoleSelectionPanel from '../components/careerMatching/RoleSelectionPanel'
+import ResumeUpload from '../components/careerMatching/ResumeUpload'
 import skillsData from '../data/skills.json'
 
 const Onboarding = () => {
   const navigate = useNavigate()
-  const { setProfile, setRoadmap, settings } = useStore()
+  const { setProfile, setRoadmap, settings, resumeData, setResumeData } = useStore()
   const [currentStep, setCurrentStep] = useState(1)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [showCompletion, setShowCompletion] = useState(false)
+  const [showMatches, setShowMatches] = useState(false)
+  const [selectedRole, setSelectedRole] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
     major: '',
@@ -40,7 +49,7 @@ const Onboarding = () => {
     targetRoles: []
   })
 
-  const totalSteps = 7
+  const totalSteps = 8
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -64,6 +73,17 @@ const Onboarding = () => {
     })
   }
 
+  const handleResumeParseComplete = (parsedData) => {
+    // Prefill skills from resume
+    if (parsedData.parsed.normalizedSkills) {
+      setFormData(prev => ({
+        ...prev,
+        currentSkills: [...new Set([...prev.currentSkills, ...parsedData.parsed.normalizedSkills])]
+      }))
+    }
+    console.log('✅ Resume parsed, skills prefilled:', parsedData.parsed.normalizedSkills)
+  }
+
   const handleNext = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1)
@@ -82,19 +102,50 @@ const Onboarding = () => {
     // Initialize AI service
     aiService.initialize(settings.apiKey)
 
-    // Create profile
+    // Create profile (NO roadmap generation yet)
     const profile = {
       id: `student-${Date.now()}`,
       ...formData,
       createdAt: new Date().toISOString()
     }
 
-    // Generate roadmap
+    // Save profile and show career matches
+    setProfile(profile)
+    setIsGenerating(false)
+    setShowMatches(true) // Show career matches for role selection
+  }
+
+  const handleRoleSelection = async (roleId) => {
+    setSelectedRole(roleId)
+  }
+
+  const handleGenerateRoadmap = async () => {
+    if (!selectedRole) {
+      alert('Please select a role first!')
+      return
+    }
+
+    setIsGenerating(true)
+
+    // Initialize AI service
+    aiService.initialize(settings.apiKey)
+
+    // Get current profile from store
+    const { profile: currentProfile } = useStore.getState()
+
+    // Update profile with selected role focus
+    const updatedProfile = {
+      ...currentProfile,
+      focusRole: selectedRole
+    }
+
+    // Generate roadmap based on selected role
     try {
-      const roadmap = await aiService.generateRoadmap(profile)
-      setProfile(profile)
+      const roadmap = await aiService.generateRoadmap(updatedProfile)
+      setProfile(updatedProfile)
       setRoadmap(roadmap)
-      navigate('/dashboard')
+      setIsGenerating(false)
+      setShowCompletion(true) // Show completion screen
     } catch (error) {
       console.error('Error generating roadmap:', error)
       alert('Failed to generate roadmap. Please try again.')
@@ -106,11 +157,12 @@ const Onboarding = () => {
     switch (currentStep) {
       case 1: return formData.name.trim() !== ''
       case 2: return formData.major.trim() !== ''
-      case 3: return formData.interests.length > 0
-      case 4: return true // Skills are optional
-      case 5: return formData.experienceLevel !== ''
-      case 6: return formData.graduationTimeline !== '' && formData.location !== ''
-      case 7: return formData.targetRoles.length > 0 || true // Can be "not sure"
+      case 3: return true // Resume upload is optional
+      case 4: return formData.interests.length > 0
+      case 5: return true // Skills are optional
+      case 6: return formData.experienceLevel !== ''
+      case 7: return formData.graduationTimeline !== '' && formData.location !== ''
+      case 8: return formData.targetRoles.length > 0 || true // Can be "not sure"
       default: return false
     }
   }
@@ -120,7 +172,7 @@ const Onboarding = () => {
     label: skillsData[key].role
   }))
 
-  const stepIcons = [FiUser, FiBookOpen, FiHeart, FiCode, FiClock, FiMapPin, FiBriefcase]
+  const stepIcons = [FiUser, FiBookOpen, FiUpload, FiHeart, FiCode, FiClock, FiMapPin, FiBriefcase]
   const StepIcon = stepIcons[currentStep - 1]
 
   return (
@@ -142,8 +194,88 @@ const Onboarding = () => {
       {/* Main Content */}
       <main className="px-6 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Progress */}
-          <ProgressBar current={currentStep} total={totalSteps} className="mb-12" />
+          {/* Completion Screen - After Roadmap Generated */}
+          {showCompletion ? (
+            <div className="space-y-8">
+              {/* Success Message */}
+              <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 text-center">
+                <div className="flex justify-center mb-6">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-bounce">
+                    <FiCheckCircle className="text-white text-4xl" />
+                  </div>
+                </div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-3">
+                  Roadmap Ready, {formData.name}!
+                </h2>
+                <p className="text-gray-600 text-lg mb-6">
+                  Your personalized roadmap for {selectedRole && getRoleProfile(selectedRole)?.name} has been generated!
+                </p>
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 rounded-full text-primary font-medium">
+                  <FiZap className="text-xl" />
+                  Your journey starts now
+                </div>
+              </div>
+
+              {/* Continue to Dashboard */}
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  size="lg"
+                  className="group"
+                >
+                  Continue to Dashboard
+                  <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </div>
+          ) : showMatches ? (
+            <div className="space-y-8">
+              {/* Role Selection Header */}
+              <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 text-center">
+                <h2 className="text-4xl font-bold text-gray-900 mb-3">
+                  Choose Your Career Path, {formData.name}!
+                </h2>
+                <p className="text-gray-600 text-lg mb-6">
+                  Based on your profile, we've identified your top 3 role matches. Select the role you want to focus on, and we'll generate a personalized roadmap for you.
+                </p>
+                <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 rounded-full text-primary font-medium">
+                  <FiTarget className="text-xl" />
+                  Step 1: Choose your path
+                </div>
+              </div>
+
+              {/* Career Match Panel with Selection */}
+              <RoleSelectionPanel
+                selectedRole={selectedRole}
+                onRoleSelect={handleRoleSelection}
+              />
+
+              {/* Generate Roadmap Button */}
+              <div className="flex justify-center">
+                <Button
+                  onClick={handleGenerateRoadmap}
+                  size="lg"
+                  className="group"
+                  disabled={!selectedRole || isGenerating}
+                >
+                  {isGenerating ? (
+                    <>
+                      <FiLoader className="mr-2 animate-spin" />
+                      Generating Your Roadmap...
+                    </>
+                  ) : (
+                    <>
+                      Generate {selectedRole && getRoleProfile(selectedRole)?.name} Roadmap
+                      <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Progress */}
+              <ProgressBar current={currentStep} total={totalSteps} className="mb-12" />
 
           {/* Form Card */}
           <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
@@ -197,8 +329,33 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 3: Interests */}
+            {/* Step 3: Resume Upload */}
             {currentStep === 3 && (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-3">
+                    Upload your resume (Optional)
+                  </h2>
+                  <p className="text-gray-600 text-lg">
+                    Upload your resume to automatically extract your skills and experience.
+                  </p>
+                </div>
+                <ResumeUpload
+                  onParseComplete={handleResumeParseComplete}
+                  showCompact={false}
+                />
+                {resumeData && (
+                  <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-green-800 font-medium">
+                      ✓ Resume uploaded! We'll use this to prefill your skills in the next steps.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Step 4: Interests */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -228,39 +385,51 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 4: Current Skills */}
-            {currentStep === 4 && (
+            {/* Step 5: Current Skills */}
+            {currentStep === 5 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
                     Any skills already?
                   </h2>
-                  <p className="text-gray-600 text-lg">
+                  <p className="text-gray-600 text-lg mb-2">
                     Select what you're already comfortable with. It's okay if none apply!
                   </p>
+                  {resumeData && (
+                    <p className="text-primary font-medium">
+                      ✓ {formData.currentSkills.length} skills (including {resumeData.parsed.normalizedSkills?.length || 0} from your resume)
+                    </p>
+                  )}
+                  {formData.currentSkills.length > 0 && !resumeData && (
+                    <p className="text-secondary font-medium">
+                      {formData.currentSkills.length} skills selected
+                    </p>
+                  )}
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {skillOptions.map(skill => (
-                    <button
-                      key={skill}
-                      onClick={() => handleMultiSelect('currentSkills', skill)}
-                      className={`
-                        p-4 rounded-xl border-2 transition-all duration-200 text-left
-                        ${formData.currentSkills.includes(skill)
-                          ? 'border-secondary bg-secondary/5 shadow-sm'
-                          : 'border-gray-200 hover:border-secondary/50'
-                        }
-                      `}
-                    >
-                      <span className="font-medium text-sm">{skill}</span>
-                    </button>
-                  ))}
+                <div className="max-h-96 overflow-y-auto border border-gray-200 rounded-xl p-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {skillOptions.map(skill => (
+                      <button
+                        key={skill}
+                        onClick={() => handleMultiSelect('currentSkills', skill)}
+                        className={`
+                          p-3 rounded-lg border-2 transition-all duration-200 text-left
+                          ${formData.currentSkills.includes(skill)
+                            ? 'border-secondary bg-secondary/5 shadow-sm'
+                            : 'border-gray-200 hover:border-secondary/50'
+                          }
+                        `}
+                      >
+                        <span className="font-medium text-xs">{skill}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
 
-            {/* Step 5: Experience Level */}
-            {currentStep === 5 && (
+            {/* Step 6: Experience Level */}
+            {currentStep === 6 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -291,8 +460,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 6: Timeline & Location */}
-            {currentStep === 6 && (
+            {/* Step 7: Timeline & Location */}
+            {currentStep === 7 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -336,8 +505,8 @@ const Onboarding = () => {
               </div>
             )}
 
-            {/* Step 7: Target Roles */}
-            {currentStep === 7 && (
+            {/* Step 8: Target Roles */}
+            {currentStep === 8 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-4xl font-bold text-gray-900 mb-3">
@@ -414,6 +583,8 @@ const Onboarding = () => {
               )}
             </div>
           </div>
+            </>
+          )}
         </div>
       </main>
     </div>
@@ -436,18 +607,40 @@ const interestOptions = [
 ]
 
 const skillOptions = [
-  'Python',
-  'JavaScript',
-  'Java',
-  'C++',
-  'HTML/CSS',
-  'React',
-  'SQL',
-  'Git',
-  'Data Structures',
-  'Algorithms',
-  'Linux',
-  'Excel'
+  // Programming Languages
+  'Python', 'JavaScript', 'Java', 'C++', 'C', 'C#', 'Go', 'Rust', 'Swift', 'Kotlin',
+  'TypeScript', 'Ruby', 'PHP', 'Scala', 'R', 'MATLAB',
+
+  // Web Development
+  'HTML/CSS', 'React', 'Angular', 'Vue.js', 'Node.js', 'Express.js', 'Next.js',
+  'Django', 'Flask', 'Spring Boot', 'ASP.NET', 'GraphQL', 'REST APIs',
+
+  // Mobile Development
+  'React Native', 'Flutter', 'iOS Development', 'Android Development',
+
+  // Data & Analytics
+  'SQL', 'NoSQL', 'MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Pandas',
+  'NumPy', 'Data Analysis', 'Data Visualization', 'Tableau', 'Power BI',
+  'Excel', 'Statistics',
+
+  // Machine Learning & AI
+  'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch', 'Scikit-learn',
+  'NLP', 'Computer Vision', 'Neural Networks',
+
+  // Cloud & DevOps
+  'AWS', 'Azure', 'Google Cloud', 'Docker', 'Kubernetes', 'CI/CD',
+  'Jenkins', 'Terraform', 'Linux', 'Bash',
+
+  // Fundamentals & Tools
+  'Data Structures', 'Algorithms', 'Git', 'GitHub', 'Debugging',
+  'Testing', 'Agile', 'Scrum', 'Object-Oriented Programming',
+
+  // Cybersecurity
+  'Network Security', 'Cryptography', 'Penetration Testing', 'Security Analysis',
+
+  // Other
+  'Product Management', 'UI/UX Design', 'Figma', 'Technical Writing',
+  'System Design', 'Microservices', 'Blockchain'
 ]
 
 const experienceLevels = [

@@ -61,6 +61,39 @@ const useStore = create(
       },
       updatePortfolio: (portfolio) => set({ portfolio }),
 
+      // Career Matching - Resume Data
+      resumeData: null,
+      setResumeData: (resumeData) => set({ resumeData }),
+      clearResumeData: () => set({ resumeData: null }),
+
+      // Career Matching - Role Matches
+      roleMatches: [],
+      setRoleMatches: (matches) => set({ roleMatches: matches }),
+      updateRoleMatch: (roleId, matchData) => set(state => ({
+        roleMatches: state.roleMatches.map(match =>
+          match.roleId === roleId ? { ...match, ...matchData } : match
+        )
+      })),
+
+      // Career Matching - Video Generation
+      videoGenerationRequests: {},
+      addVideoRequest: (roleId, requestData) => set(state => ({
+        videoGenerationRequests: {
+          ...state.videoGenerationRequests,
+          [roleId]: requestData
+        }
+      })),
+      updateVideoRequest: (roleId, updates) => set(state => ({
+        videoGenerationRequests: {
+          ...state.videoGenerationRequests,
+          [roleId]: {
+            ...state.videoGenerationRequests[roleId],
+            ...updates
+          }
+        }
+      })),
+      clearVideoRequests: () => set({ videoGenerationRequests: {} }),
+
       // Add completed project
       addCompletedProject: (project) => set(state => ({
         portfolio: {
@@ -117,12 +150,15 @@ const useStore = create(
           linkedinUrl: '',
           resumeUrl: '',
           portfolioUrl: ''
-        }
+        },
+        resumeData: null,
+        roleMatches: [],
+        videoGenerationRequests: {}
       }),
     }),
     {
       name: 'launchpad-storage',
-      version: 1,
+      version: 2, // Incremented for career matching features
     }
   )
 )

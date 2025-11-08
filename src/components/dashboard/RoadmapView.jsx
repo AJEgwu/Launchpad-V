@@ -2,6 +2,7 @@ import { useStore } from '../../store/useStore'
 import Card from '../Card'
 import Badge from '../Badge'
 import Button from '../Button'
+import CareerMatchPanel from '../careerMatching/CareerMatchPanel'
 import { getNextSteps } from '../../utils/matching'
 
 const RoadmapView = () => {
@@ -46,6 +47,9 @@ const RoadmapView = () => {
             Follow this personalized plan to achieve your career goals
           </p>
         </div>
+
+        {/* Career Match - Compact View */}
+        <CareerMatchPanel limit={1} showTitle={false} compact={true} />
 
         {/* Progress Overview */}
         <Card>

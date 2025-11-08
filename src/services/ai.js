@@ -47,14 +47,20 @@ The JSON should have this structure:
   }]
 }`
 
+    // Determine primary focus role
+    const focusRole = profile.focusRole || profile.targetRoles?.[0] || 'Software Engineer'
+
     const userPrompt = `Generate a career roadmap for:
 Major: ${profile.major}
 Interests: ${profile.interests.join(', ')}
 Current Skills: ${profile.currentSkills.join(', ') || 'None listed'}
 Experience: ${profile.experienceLevel}
 Timeline: ${profile.graduationTimeline}
-Target Roles: ${profile.targetRoles.join(', ')}
+PRIMARY FOCUS ROLE: ${focusRole} (This is the MAIN role they selected - optimize the roadmap for THIS role specifically!)
+Other Interested Roles: ${profile.targetRoles?.join(', ') || 'None'}
 Constraints: ${JSON.stringify(profile.constraints)}
+
+IMPORTANT: Create a roadmap specifically tailored for becoming a ${focusRole}. All milestones, projects, and skills should directly support this career path.
 
 Create 3-4 phases with 2-4 milestones each. Be specific and actionable.`
 
@@ -76,6 +82,34 @@ Create 3-4 phases with 2-4 milestones each. Be specific and actionable.`
       console.error('❌ OpenAI API Error:', error)
       console.log('⚠️ Falling back to demo mode')
       return this.generateMockRoadmap(profile)
+    }
+  }
+
+  /**
+   * Simple chat method for general AI calls (resume parsing, role matching, etc.)
+   * @param {Array} messages - Array of message objects with role and content
+   * @returns {Promise<string>} - AI response content
+   */
+  async chat(messages) {
+    if (this.demoMode) {
+      return this.generateMockChatResponse(messages[messages.length - 1].content)
+    }
+
+    if (!this.client) {
+      throw new Error('AI Service not initialized. Call initialize() first.')
+    }
+
+    try {
+      const response = await this.client.chat.completions.create({
+        model: 'gpt-4',
+        messages: messages,
+        temperature: 0.7,
+      })
+
+      return response.choices[0].message.content
+    } catch (error) {
+      console.error('❌ OpenAI API Error:', error)
+      throw error
     }
   }
 
@@ -180,9 +214,9 @@ Return as JSON:
 
   // Mock responses for demo mode
   generateMockRoadmap(profile) {
-    const targetRole = profile.targetRoles[0] || 'SWE'
+    const targetRole = profile.focusRole || profile.targetRoles?.[0] || 'SWE'
     return {
-      tracks: profile.targetRoles,
+      tracks: [targetRole],
       phases: [
         {
           id: 'phase-1',
