@@ -24,7 +24,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install
+
+      - name: Verify API Key
+        run: |
+          if [ -z "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "ERROR: OPENAI_API_KEY secret is not set!"
+            echo "Please add it in Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          echo "API key is configured ✓"
 
       - name: Build with environment variables
         env:
